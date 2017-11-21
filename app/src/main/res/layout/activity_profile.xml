@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#FFFFFF"
+            tools:context="com.ituition.ituition.ProfileActivity">
+
+
+            <ImageView
+                android:id="@+id/profilePicture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="30dp" />
+
+            <Button
+                android:id="@+id/profileNext"
+                style="@android:style/Widget.Material.Light.Button.Inset"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginEnd="15dp"
+                android:layout_marginTop="30dp"
+                android:text="  Update Info  " />
+
+            <TextView
+                android:id="@+id/nameLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/profilePicture"
+                android:layout_below="@+id/profilePicture"
+                android:layout_marginTop="15dp"
+                android:text="Name: "
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/nameField"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/nameLabel"
+                android:layout_alignBottom="@+id/nameLabel"
+                android:layout_alignStart="@id/acBdField"
+                android:layout_toEndOf="@+id/nameLabel"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/contactNoLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/profilePicture"
+                android:layout_below="@+id/nameLabel"
+                android:layout_marginTop="15dp"
+                android:text="Contact No: "
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/contactNoField"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/contactNoLabel"
+                android:layout_alignBottom="@+id/contactNoLabel"
+                android:layout_alignStart="@id/acBdField"
+                android:layout_toEndOf="@+id/contactNoLabel"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/emailLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/profilePicture"
+                android:layout_below="@+id/contactNoLabel"
+                android:layout_marginTop="15dp"
+                android:text="Email: "
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/emailField"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/emailLabel"
+                android:layout_alignBottom="@+id/emailLabel"
+                android:layout_alignStart="@id/acBdField"
+                android:layout_toEndOf="@+id/emailLabel"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/qualificationLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/emailLabel"
+                android:layout_below="@+id/emailLabel"
+                android:layout_marginTop="15dp"
+                android:text="Qualification:"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/acBdField"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/qualificationLabel"
+                android:layout_alignBottom="@+id/qualificationLabel"
+                android:layout_marginStart="12dp"
+                android:layout_toEndOf="@+id/qualificationLabel"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/specialtyLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/qualificationLabel"
+                android:layout_below="@+id/acBdField"
+                android:layout_marginTop="15dp"
+                android:text="Specialty:"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/specialtyField"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/specialtyLabel"
+                android:layout_alignBottom="@+id/specialtyLabel"
+                android:layout_alignStart="@+id/acBdField"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/preferencesLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/specialtyLabel"
+                android:layout_below="@+id/specialtyField"
+                android:layout_marginTop="15dp"
+                android:text="Preferences:"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/preferencesField"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/preferencesLabel"
+                android:layout_alignBottom="@+id/preferencesLabel"
+                android:layout_alignStart="@id/specialtyField"
+                android:layout_toEndOf="@+id/preferencesLabel"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/locationLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/specialtyLabel"
+                android:layout_below="@+id/preferencesField"
+                android:layout_marginTop="15dp"
+                android:text="Locations:"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/locationField"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/locationLabel"
+                android:layout_alignBottom="@+id/locationLabel"
+                android:layout_alignStart="@id/specialtyField"
+                android:layout_toEndOf="@+id/locationLabel"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="18sp" />
+        </RelativeLayout>
+    </ScrollView>
+</LinearLayout>
