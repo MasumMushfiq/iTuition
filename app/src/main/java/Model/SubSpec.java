@@ -34,4 +34,15 @@ public class SubSpec {
     public boolean addSubSpec(String s) {
         return subSpec.add(s);
     }
+
+    public String getSubjectsAsString() {
+        StringBuilder sb = new StringBuilder("Subjects: ");
+        for (String s :
+                subSpec) {
+            sb.append(s).append(", ");
+        }
+        String s = sb.toString();
+        s = s.substring(0, s.length() - 1);
+        return s;
+    }
 }

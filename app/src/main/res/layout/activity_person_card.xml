@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:card_view="http://schemas.android.com/tools"
+    android:padding="5dp"
+    card_view:cardCornerRadius="4dp">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/person_card_view"
+        card_view:elevation="3dp"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/person_photo"
+                android:src="@drawable/icon"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/person_name"
+                android:layout_toEndOf="@+id/person_photo"
+                android:text="Tahmid Hasan"
+                android:layout_marginTop="12dp"
+                android:layout_marginStart="10dp"
+                android:textSize="20sp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/person_background"
+                android:layout_toEndOf="@+id/person_photo"
+                android:layout_below="@+id/person_name"
+                android:layout_alignStart="@id/person_name"
+                android:text="Studying CSE at BUET"
+                android:textSize="15sp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/person_subjects"
+                android:layout_below="@+id/person_photo"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:text="Subjects: Physics, Chemistry, Mathematics"
+                android:textSize="15sp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/person_location"
+                android:layout_below="@+id/person_subjects"
+                android:layout_alignStart="@id/person_subjects"
+                android:text="Locations: Gulshan, Dhanmondi, Azimpur"
+                android:textSize="15sp"
+                />
+
+
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

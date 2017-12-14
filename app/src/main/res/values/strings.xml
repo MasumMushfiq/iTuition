@@ -14,4 +14,8 @@
         completions."
     </string>
     <string name="home_action_search">"Search for tutor"</string>
+    <string name="myaccount">Profile</string>
+    <string name="popular_tutors">Popular Tutors</string>
+    <string name="tutors_near_you">Tutors Near You</string>
+    <string name="latest_reviews">Latest Reviews</string>
 </resources>

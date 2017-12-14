@@ -34,4 +34,15 @@ public class Location {
     public boolean addLocation(String location) {
         return locations.add(location);
     }
+
+    public String getLocationAsString() {
+        StringBuilder sb = new StringBuilder("Locations: ");
+        for (String s :
+                locations) {
+            sb.append(s).append(", ");
+        }
+        String s = sb.toString();
+        s = s.substring(0, s.length() - 1);
+        return s;
+    }
 }

@@ -13,4 +13,8 @@
         android:title="@string/action_settings"
         app:showAsAction="never"/>
 
+    <item android:id="@+id/action_account"
+        android:title="@string/myaccount"
+        app:showAsAction="never"/>
+
 </menu>
