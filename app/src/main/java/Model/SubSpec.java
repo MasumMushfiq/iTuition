@@ -42,7 +42,7 @@ public class SubSpec {
             sb.append(s).append(", ");
         }
         String s = sb.toString();
-        s = s.substring(0, s.length() - 1);
+        s = s.substring(0, s.length() - 2);
         return s;
     }
 }

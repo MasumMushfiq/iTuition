@@ -4,9 +4,9 @@
     <!-- "Mark Favorite", should appear as action button if possible -->
     <item android:id="@+id/search"
         android:title="@string/home_action_search"
-        android:icon="@drawable/ic_search_black_48dp"
-        app:showAsAction="collapseActionView|ifRoom"
-        app:actionViewClass="android.widget.SearchView" />
+        android:icon="@android:drawable/ic_menu_search"
+        app:showAsAction="always"
+        app:actionViewClass="android.support.v7.widget.SearchView" />
 
     <!-- Settings, should always be in the overflow -->
     <item android:id="@+id/action_settings"
@@ -14,7 +14,7 @@
         app:showAsAction="never"/>
 
     <item android:id="@+id/action_account"
-        android:title="@string/myaccount"
+        android:title="@string/profile"
         app:showAsAction="never"/>
 
 </menu>

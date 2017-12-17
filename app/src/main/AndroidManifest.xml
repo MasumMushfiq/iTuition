@@ -13,7 +13,7 @@
         android:label="iTuition"
         android:roundIcon="@drawable/logo1"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        android:theme="@style/AppTheme">
         <activity
             android:name=".LoginActivity"
             android:label="iTuition">

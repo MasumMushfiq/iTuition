@@ -2,25 +2,24 @@ package com.ituition.ituition;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import Model.Database;
-import Model.Person;
-import Model.User;
+import com.ituition.ituition.Adapters.VPAdapter;
+import com.ituition.ituition.Fragments.LatestReviewsFragment;
+import com.ituition.ituition.Fragments.PopularTutorsFragment;
+import com.ituition.ituition.Fragments.TutorsNearYouFragment;
 
 public class UserHomeActivity extends AppCompatActivity {
     String userName;
+    Toolbar toolbar;
+    TabLayout tabLayout;
+    ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,32 +31,23 @@ public class UserHomeActivity extends AppCompatActivity {
             userName = (String) bundle.get("username");
         }
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.home_toolbar);
+        toolbar = (Toolbar) findViewById(R.id.home_toolbar);
         setSupportActionBar(toolbar);
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.home_recycler_view);
-        recyclerView.setHasFixedSize(true);
+        viewPager = (ViewPager) findViewById(R.id.home_viewpager);
+        setupViewPager();
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerView.setLayoutManager(layoutManager);
+        tabLayout = (TabLayout) findViewById(R.id.home_tabs);
+        tabLayout.setupWithViewPager(viewPager);
 
-        ArrayList<Person> users = new ArrayList<>();
-        for (HashMap.Entry<String, User> entry: Database.users.entrySet()){
-            users.add(new Person(entry.getKey()));
-        }
-        System.out.println(users.size());
-        RVAdapter adapter = new RVAdapter(users);
-        recyclerView.setAdapter(adapter);
+    }
 
-        Button testCard = (Button)findViewById(R.id.testCard);
-
-        testCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(UserHomeActivity.this, PersonCard.class);
-                startActivity(intent);
-            }
-        });
+    private void setupViewPager() {
+        VPAdapter adapter = new VPAdapter(getSupportFragmentManager());
+        adapter.addFragment(new TutorsNearYouFragment(), "TUTORS NEAR YOU");
+        adapter.addFragment(new PopularTutorsFragment(), "POPULAR TUTORS");
+        adapter.addFragment(new LatestReviewsFragment(), "LATEST REVIEWS");
+        viewPager.setAdapter(adapter);
     }
 
     @Override

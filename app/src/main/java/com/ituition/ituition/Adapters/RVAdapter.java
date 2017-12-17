@@ -1,4 +1,4 @@
-package com.ituition.ituition;
+package com.ituition.ituition.Adapters;
 
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.ituition.ituition.R;
 
 import java.util.ArrayList;
 
@@ -40,7 +42,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.UserViewHolder> {
 
     ArrayList<Person> people;
 
-    RVAdapter(ArrayList<Person> users) {
+    public RVAdapter(ArrayList<Person> users) {
         this.people = users;
     }
 

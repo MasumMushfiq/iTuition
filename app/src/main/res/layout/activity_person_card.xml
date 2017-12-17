@@ -1,80 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/person_card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:card_view="http://schemas.android.com/tools"
-    android:padding="5dp"
-    card_view:cardCornerRadius="4dp">
+    android:layout_marginLeft="3dp"
+    android:layout_marginRight="3dp"
+    android:layout_marginTop="3dp"
+    app:cardCornerRadius="4dp"
+    app:cardBackgroundColor="@color/cardview_light_background"
+    app:cardElevation="4dp"
+    tools:cardBackgroundColor="@drawable/gradient5">
 
-    <android.support.v7.widget.CardView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/person_card_view"
-        card_view:elevation="3dp"
-        >
+        android:padding="4dp">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/person_photo"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            >
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/person_photo"
-                android:src="@drawable/icon"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/person_name"
-                android:layout_toEndOf="@+id/person_photo"
-                android:text="Tahmid Hasan"
-                android:layout_marginTop="12dp"
-                android:layout_marginStart="10dp"
-                android:textSize="20sp"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/person_background"
-                android:layout_toEndOf="@+id/person_photo"
-                android:layout_below="@+id/person_name"
-                android:layout_alignStart="@id/person_name"
-                android:text="Studying CSE at BUET"
-                android:textSize="15sp"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/person_subjects"
-                android:layout_below="@+id/person_photo"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp"
-                android:text="Subjects: Physics, Chemistry, Mathematics"
-                android:textSize="15sp"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/person_location"
-                android:layout_below="@+id/person_subjects"
-                android:layout_alignStart="@id/person_subjects"
-                android:text="Locations: Gulshan, Dhanmondi, Azimpur"
-                android:textSize="15sp"
-                />
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:src="@drawable/icon" />
 
 
 
-        </RelativeLayout>
+        <TextView
+            android:id="@+id/person_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="12dp"
+            android:layout_toEndOf="@+id/person_photo"
+            android:text="Shahriar Ahmed Ashrafi"
+            android:textSize="20sp" />
 
-    </android.support.v7.widget.CardView>
+       <!-- <RatingBar
+            android:id="@+id/rating"
+            style="@style/RatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/person_name"
+            android:layout_toEndOf="@+id/person_name"
+            android:clickable="false"
+            android:isIndicator="true"
+            android:rating="4.5"/>-->
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/person_background"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@id/person_name"
+            android:layout_below="@+id/person_name"
+            android:layout_toEndOf="@+id/person_photo"
+            android:text="Studying CSE at BUET"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/person_subjects"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/person_photo"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:text="Subjects: Physics, Chemistry, Mathematics"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/person_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@id/person_subjects"
+            android:layout_below="@+id/person_subjects"
+            android:text="Locations: Gulshan, Dhanmondi, Azimpur"
+            android:textSize="15sp" />
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>
+
