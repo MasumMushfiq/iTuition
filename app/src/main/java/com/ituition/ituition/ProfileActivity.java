@@ -13,9 +13,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import Model.Database;
+import Model.User;
 
 public class ProfileActivity extends AppCompatActivity {
     String userName = "";
+    User user;
     Button next;
     TextView prefField;
     TextView specialtyField;
@@ -25,6 +27,11 @@ public class ProfileActivity extends AppCompatActivity {
     TextView emailField;
     TextView locationField;
     ImageView profilePicture;
+    TextView oneSalary;
+    TextView twoSalary;
+    TextView threeSalary;
+    TextView moreSalary;
+    int activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +39,14 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            userName = (String) bundle.get("username");
+            activity = (int) bundle.get("activity");
         }
 
+        if (activity == 1){
+            userName = Database.getCurrentUsername();
+        } else if (activity == 2 && bundle != null) {
+            userName = (String) bundle.get("username");
+        }
 
         next = (Button) findViewById(R.id.profileNext);
         prefField = (TextView) findViewById(R.id.preferencesField);
@@ -45,6 +57,12 @@ public class ProfileActivity extends AppCompatActivity {
         contactNoField = (TextView) findViewById(R.id.contactNoField);
         profilePicture = (ImageView) findViewById(R.id.profilePicture);
         emailField = (TextView) findViewById(R.id.emailField);
+        oneSalary = (TextView) findViewById(R.id.onePersonSalary);
+        twoSalary = (TextView) findViewById(R.id.twoPersonSalary);
+        threeSalary = (TextView) findViewById(R.id.threePersonSalary);
+        moreSalary = (TextView) findViewById(R.id.morePersonSalary);
+
+        user = Database.users.get(userName);
 
         prefField.setText(getAcademicPreferences());
         specialtyField.setText(getSubjectSpecialty());
@@ -53,15 +71,34 @@ public class ProfileActivity extends AppCompatActivity {
         contactNoField.setText(Database.users.get(userName).getContactNo());
         emailField.setText(Database.users.get(userName).getEmail());
         locationField.setText(getLocations());
-        profilePicture.setImageResource(R.drawable.icon);
+        profilePicture.setImageResource(R.drawable.ic_contact_picture);
+        oneSalary.setText(String.valueOf(user.getOneSalary()));
+        twoSalary.setText(String.valueOf(user.getTwoSalary()));
+        threeSalary.setText(String.valueOf(user.getThreeSalary()));
+        moreSalary.setText(String.valueOf(user.getMoreSalary()));
 
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ProfileActivity.this, UpdateActivity.class);
-                startActivity(intent);
-            }
-        });
+        if (activity == 1) {
+            next.setText("  Update Info  ");
+            next.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(ProfileActivity.this, UpdateActivity.class);
+                    startActivity(intent);
+                }
+            });
+        } else if (activity == 2) {
+            next.setText("   Request Tuition  ");
+            next.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(ProfileActivity.this, RequestTuition.class);
+                    startActivity(intent);
+                }
+            });
+
+        }
+
+
     }
 
     private String getAcademicPreferences() {
@@ -92,7 +129,7 @@ public class ProfileActivity extends AppCompatActivity {
         StringBuilder x = new StringBuilder();
         if (!Database.subSpecs.containsKey(userName))
             return "";
-        ArrayList <String> specs = Database.subSpecs.get(userName).getSubSpec();
+        ArrayList<String> specs = Database.subSpecs.get(userName).getSubSpec();
         for (String s : specs) {
             x.append(s).append("\n");
         }

@@ -1,149 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ScrollView
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        tools:context="com.ituition.ituition.UpdateActivity">
 
-        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
+        <!--<com.github.florent37.materialtextfield.MaterialTextField
+            android:id="@+id/nameField"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="12dp"
+            app:mtf_image="@drawable/ic_email_white_24dp"
+            app:mtf_labelColor="#666">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Name"
+                android:text="Tahmid Hasan"
+                android:textColor="#000000"
+                android:textSize="15sp" />
+        </com.github.florent37.materialtextfield.MaterialTextField>
+
+        <com.github.florent37.materialtextfield.MaterialTextField
+            android:id="@+id/qualificationField"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignStart="@+id/nameField"
+            android:layout_below="@+id/nameField"
+            app:mtf_image="@drawable/ic_email_white_24dp"
+            app:mtf_labelColor="#666">
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Qualification"
+                android:text="Studying CSE at BUET"
+                android:textColor="#000000"
+                android:textSize="15sp" />
+
+        </com.github.florent37.materialtextfield.MaterialTextField>
+
+        <com.github.florent37.materialtextfield.MaterialTextField
+            android:id="@+id/preferenceField"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignStart="@+id/nameField"
+            android:layout_below="@+id/qualificationField"
+            android:layout_marginBottom="10dp"
+            app:mtf_image="@drawable/ic_email_white_24dp"
+            app:mtf_labelColor="#666">
+
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Preference"
+                android:text="English Medium, HSC"
+                android:textColor="#000000"
+                android:textSize="15sp" />
+
+        </com.github.florent37.materialtextfield.MaterialTextField>
+
+        <TextView
+            android:id="@+id/specialty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/specialtyField1"
+            android:text=" Specialty"
+            android:textSize="20sp"
+            android:layout_below="@+id/preferenceField"
+            android:layout_marginBottom="10dp"/>
+
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/specialtyField1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#ffffff"
-            tools:context="com.ituition.ituition.UpdateActivity">
+            android:layout_alignStart="@+id/preferenceField"
+            android:layout_below="@+id/specialty"
+            android:text="Math"
+            android:checked="true"/>
 
-            <com.github.florent37.materialtextfield.MaterialTextField
-                android:id="@+id/nameField"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="12dp"
-                app:mtf_image="@drawable/ic_email_white_24dp"
-                app:mtf_labelColor="#666">
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/specialtyField2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignStart="@+id/preferenceField"
+            android:layout_below="@+id/specialtyField1"
+            android:text="Physics" />
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/specialtyField3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignStart="@+id/preferenceField"
+            android:layout_below="@+id/specialtyField2"
+            android:text="ICT"
+            android:checked="true"/>
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/specialtyField4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignStart="@+id/preferenceField"
+            android:layout_below="@+id/specialtyField3"
+            android:text="Chemistry" />
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/specialtyField5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignStart="@+id/preferenceField"
+            android:layout_below="@+id/specialtyField4"
+            android:text="Economics" />
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/specialtyField6"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignStart="@+id/preferenceField"
+            android:layout_below="@+id/specialtyField5"
+            android:text="Biology" />
 
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Name"
-                    android:text="Tahmid Hasan"
-                    android:textColor="#000000"
-                    android:textSize="15sp" />
-            </com.github.florent37.materialtextfield.MaterialTextField>
-
-            <com.github.florent37.materialtextfield.MaterialTextField
-                android:id="@+id/qualificationField"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignStart="@+id/nameField"
-                android:layout_below="@+id/nameField"
-                app:mtf_image="@drawable/ic_email_white_24dp"
-                app:mtf_labelColor="#666">
-
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Qualification"
-                    android:text="Studying CSE at BUET"
-                    android:textColor="#000000"
-                    android:textSize="15sp" />
-
-            </com.github.florent37.materialtextfield.MaterialTextField>
-
-            <com.github.florent37.materialtextfield.MaterialTextField
-                android:id="@+id/preferenceField"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignStart="@+id/nameField"
-                android:layout_below="@+id/qualificationField"
-                android:layout_marginBottom="10dp"
-                app:mtf_image="@drawable/ic_email_white_24dp"
-                app:mtf_labelColor="#666">
+        <Button
+            android:id="@+id/saveBtn"
+            style="@android:style/Widget.Material.Button.Inset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/specialtyField6"
+            android:text="Save" />
+-->
 
 
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Preference"
-                    android:text="English Medium, HSC"
-                    android:textColor="#000000"
-                    android:textSize="15sp" />
+    </RelativeLayout>
 
-            </com.github.florent37.materialtextfield.MaterialTextField>
-
-            <TextView
-                android:id="@+id/specialty"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignStart="@+id/specialtyField1"
-                android:text=" Specialty"
-                android:textSize="20sp"
-                android:layout_below="@+id/preferenceField"
-                android:layout_marginBottom="10dp"/>
-
-            <android.support.v7.widget.AppCompatCheckBox
-                android:id="@+id/specialtyField1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignStart="@+id/preferenceField"
-                android:layout_below="@+id/specialty"
-                android:text="Math"
-                android:checked="true"/>
-
-            <android.support.v7.widget.AppCompatCheckBox
-                android:id="@+id/specialtyField2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignStart="@+id/preferenceField"
-                android:layout_below="@+id/specialtyField1"
-                android:text="Physics" />
-            <android.support.v7.widget.AppCompatCheckBox
-                android:id="@+id/specialtyField3"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignStart="@+id/preferenceField"
-                android:layout_below="@+id/specialtyField2"
-                android:text="ICT"
-                android:checked="true"/>
-            <android.support.v7.widget.AppCompatCheckBox
-                android:id="@+id/specialtyField4"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignStart="@+id/preferenceField"
-                android:layout_below="@+id/specialtyField3"
-                android:text="Chemistry" />
-            <android.support.v7.widget.AppCompatCheckBox
-                android:id="@+id/specialtyField5"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignStart="@+id/preferenceField"
-                android:layout_below="@+id/specialtyField4"
-                android:text="Economics" />
-            <android.support.v7.widget.AppCompatCheckBox
-                android:id="@+id/specialtyField6"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignStart="@+id/preferenceField"
-                android:layout_below="@+id/specialtyField5"
-                android:text="Biology" />
-
-            <Button
-                android:id="@+id/saveBtn"
-                style="@android:style/Widget.Material.Button.Inset"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_below="@id/specialtyField6"
-                android:text="Save" />
-
-        </RelativeLayout>
-
-    </ScrollView>
-</LinearLayout>
+</ScrollView>

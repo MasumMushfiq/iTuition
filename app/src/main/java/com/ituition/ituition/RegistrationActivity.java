@@ -71,7 +71,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 if (validation) {
                     Intent intent = new Intent(RegistrationActivity.this, ProfileActivity.class);
                     {
-                        User user = new User(usernameText, nameText, pwText, contactNoText, emailText, "", genderText);
+                        User user = new User(usernameText, nameText, pwText, contactNoText, emailText, "", genderText, 0);
                         Database.users.put(usernameText, user);
                     }
                     intent.putExtra("username", usernameText);

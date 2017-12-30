@@ -31,10 +31,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         //getSupportActionBar().hide();
-        loadUsers();
-        loadAcPreferences();
-        loadSubSpec();
-        loadLocations();
+        loadDatabase();
 
         signInBtn = (Button) findViewById(R.id.signInBtn);
         registerBtn = (Button) findViewById(R.id.registerBtn);
@@ -50,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
                 int result = verifyLogin(userName, password);
                 if (result == 1) {
                     Intent intent = new Intent(LoginActivity.this, UserHomeActivity.class);
-                    intent.putExtra("username", userName);
+                    Database.setCurrentUsername(userName);
                     startActivity(intent);
                 } else if (result == 2) {
                     //wrong password
@@ -74,6 +71,16 @@ public class LoginActivity extends AppCompatActivity {
 
 
     }
+    private void loadDatabase() {
+        new Thread(new Runnable() {
+            public void run() {
+               loadUsers();
+               loadAcPreferences();
+               loadSubSpec();
+               loadLocations();
+            }
+        }).start();
+    }
 
     private void loadUsers() {
         Database.users.clear();
@@ -84,11 +91,11 @@ public class LoginActivity extends AppCompatActivity {
             try {
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                String receiveString = "";
+                String receivedString = "";
 
-                while ((receiveString = bufferedReader.readLine()) != null) {
+                while ((receivedString = bufferedReader.readLine()) != null) {
                     //System.out.println(receiveString);
-                    User user = new User(receiveString);
+                    User user = new User(receivedString);
                     Database.users.put(user.getUserName(), user);
                 }
                 inputStream.close();
@@ -194,14 +201,13 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-
     public int verifyLogin(String userName, String password) {
         if (Database.users.containsKey(userName))
             if (Database.users.get(userName).getPassword().equals(password)) {
                 return 1;
             } else {
-                return 2;
+                return 2;   //wrong password
             }
-        return 3;
+        return 3;   //unregistered username
     }
 }

@@ -19,4 +19,8 @@
     <string name="tutors_near_you">Tutors Near You</string>
     <string name="latest_reviews">Latest Reviews</string>
     <string name="profile">Profile</string>
+    <string name="profile_picture_description">Profile picture</string>
+    <string name="action_menu_logout">Log Out</string>
+    <string name="search_hint">Search tutors based on subjects and locations</string>
+    <string name="title_activity_volley_test">VolleyTestActivity</string>
 </resources>

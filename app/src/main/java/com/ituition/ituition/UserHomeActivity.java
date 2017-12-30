@@ -10,26 +10,22 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import com.ituition.ituition.Adapters.VPAdapter;
+import com.android.volley.RequestQueue;
+
+import Adapters.VPAdapter;
 import com.ituition.ituition.Fragments.LatestReviewsFragment;
 import com.ituition.ituition.Fragments.PopularTutorsFragment;
-import com.ituition.ituition.Fragments.TutorsNearYouFragment;
 
 public class UserHomeActivity extends AppCompatActivity {
-    String userName;
-    Toolbar toolbar;
-    TabLayout tabLayout;
-    ViewPager viewPager;
+    private Toolbar toolbar;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+    RequestQueue requestQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_home);
-
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            userName = (String) bundle.get("username");
-        }
 
         toolbar = (Toolbar) findViewById(R.id.home_toolbar);
         setSupportActionBar(toolbar);
@@ -44,7 +40,7 @@ public class UserHomeActivity extends AppCompatActivity {
 
     private void setupViewPager() {
         VPAdapter adapter = new VPAdapter(getSupportFragmentManager());
-        adapter.addFragment(new TutorsNearYouFragment(), "TUTORS NEAR YOU");
+        //adapter.addFragment(new TutorsNearYouFragment(), "TUTORS NEAR YOU");
         adapter.addFragment(new PopularTutorsFragment(), "POPULAR TUTORS");
         adapter.addFragment(new LatestReviewsFragment(), "LATEST REVIEWS");
         viewPager.setAdapter(adapter);
@@ -54,6 +50,15 @@ public class UserHomeActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.user_home_menu, menu);
+
+        /*SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView =
+                (SearchView) menu.findItem(R.id.action_search).getActionView();
+        assert searchManager != null;
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(getComponentName()));*/
+
         return true;
     }
 
@@ -62,8 +67,12 @@ public class UserHomeActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.action_account:
                 Intent intent = new Intent(UserHomeActivity.this, ProfileActivity.class);
-                intent.putExtra("username", userName);
+                intent.putExtra("activity", 1);
                 startActivity(intent);
+                return true;
+            case R.id.logout:
+                Intent intent1 = new Intent(UserHomeActivity.this, LoginActivity.class);
+                startActivity(intent1);
                 return true;
         }
         return true;

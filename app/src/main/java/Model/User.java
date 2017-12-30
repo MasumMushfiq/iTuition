@@ -1,5 +1,7 @@
 package Model;
 
+import android.util.Log;
+
 /**
  * Created by mushfiq on 11/17/17.
  */
@@ -12,9 +14,11 @@ public class User {
     private String email;
     private String academicBackground;
     private String gender;
+    private float rating;
+    private int oneSalary, twoSalary, threeSalary, moreSalary;
 
     public User(String userName, String name, String password,
-                String contactNo, String email, String academicBackground, String gender) {
+                String contactNo, String email, String academicBackground, String gender, float rating) {
         this.userName = userName;
         this.name = name;
         this.password = password;
@@ -22,6 +26,7 @@ public class User {
         this.email = email;
         this.academicBackground = academicBackground;
         this.gender = gender;
+        this.rating = rating;
     }
 
     public User(String data) {
@@ -33,6 +38,12 @@ public class User {
         academicBackground = array[4];
         email = array[5];
         gender = array[6];
+        rating = Float.parseFloat(array[7]);
+        oneSalary = (int)Double.parseDouble(array[8]);
+        twoSalary = (int)Double.parseDouble(array[9]);
+        threeSalary = (int)Double.parseDouble(array[10]);
+        moreSalary = (int)Double.parseDouble(array[11]);
+        Log.d("Salary", oneSalary + " " + twoSalary + " " + threeSalary + " " + moreSalary);
     }
 
     public String getUserName() {
@@ -84,17 +95,37 @@ public class User {
         this.name = name;
     }
 
+    public float getRating() {
+        return rating;
+    }
+
+    public int getOneSalary() {
+        return oneSalary;
+    }
+
+    public int getTwoSalary() {
+        return twoSalary;
+    }
+
+    public int getThreeSalary() {
+        return threeSalary;
+    }
+
+    public int getMoreSalary() {
+        return moreSalary;
+    }
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("User{");
-        sb.append("userName='").append(userName).append('\'');
-        sb.append(", name='").append(name).append('\'');
-        sb.append(", password='").append(password).append('\'');
-        sb.append(", contactNo='").append(contactNo).append('\'');
-        sb.append(", email='").append(email).append('\'');
-        sb.append(", academicBackground='").append(academicBackground).append('\'');
-        sb.append('}');
-        return sb.toString();
+        return "User {" +
+                "userName='" + userName + '\'' +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", contactNo='" + contactNo + '\'' +
+                ", email='" + email + '\'' +
+                ", academicBackground='" + academicBackground + '\'' +
+                ", gender='" + gender + '\'' +
+                ", rating=" + rating +
+                '}';
     }
 }

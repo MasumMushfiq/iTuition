@@ -2,10 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ituition.ituition">
 
-    <!-- To auto-complete the email text field in the login form with the user's emails -->
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.READ_PROFILE" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -26,8 +23,23 @@
         <activity android:name=".UpdateActivity" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".RegistrationActivity" />
-        <activity android:name=".PersonCard"/>
-        <activity android:name=".UserHomeActivity"></activity>
+        <activity android:name=".UserHomeActivity" />
+        <activity android:name=".RequestTuition" />
+
+        <!--
+        <activity android:name=".ProcessSearchActivity"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+        -->
+        <activity android:name=".VolleyActivity" />
+        <activity android:name=".SearchActivity"></activity>
     </application>
 
 </manifest>

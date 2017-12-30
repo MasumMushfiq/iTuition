@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ituition.ituition.R;
-import com.ituition.ituition.Adapters.RVAdapter;
+import Adapters.RVAdapter;
 
 import java.util.ArrayList;
 import java.util.Collections;

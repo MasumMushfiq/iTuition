@@ -10,8 +10,8 @@
     android:layout_marginLeft="3dp"
     android:layout_marginRight="3dp"
     android:layout_marginTop="3dp"
-    app:cardCornerRadius="4dp"
     app:cardBackgroundColor="@color/cardview_light_background"
+    app:cardCornerRadius="4dp"
     app:cardElevation="4dp"
     tools:cardBackgroundColor="@drawable/gradient5">
 
@@ -26,31 +26,22 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:src="@drawable/icon" />
-
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:contentDescription="@string/profile_picture_description"
+            android:src="@drawable/ic_contact_picture" />
 
 
         <TextView
             android:id="@+id/person_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="12dp"
+            android:layout_alignTop="@+id/person_photo"
+            android:layout_marginStart="15dp"
             android:layout_toEndOf="@+id/person_photo"
             android:text="Shahriar Ahmed Ashrafi"
+            android:textColor="@color/textColorDark"
             android:textSize="20sp" />
-
-       <!-- <RatingBar
-            android:id="@+id/rating"
-            style="@style/RatingBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignTop="@+id/person_name"
-            android:layout_toEndOf="@+id/person_name"
-            android:clickable="false"
-            android:isIndicator="true"
-            android:rating="4.5"/>-->
 
         <TextView
             android:id="@+id/person_background"
@@ -58,18 +49,34 @@
             android:layout_height="wrap_content"
             android:layout_alignStart="@id/person_name"
             android:layout_below="@+id/person_name"
+            android:layout_marginTop="2dp"
             android:layout_toEndOf="@+id/person_photo"
             android:text="Studying CSE at BUET"
+            android:textColor="@color/textColorDark"
             android:textSize="15sp" />
+
+        <RatingBar
+            android:id="@+id/rating"
+            style="@style/RatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/person_background"
+            android:layout_alignStart="@id/person_background"
+            android:layout_marginTop="3dp"
+            android:clickable="false"
+            android:isIndicator="true"
+            android:rating="1.5" />
+
 
         <TextView
             android:id="@+id/person_subjects"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/person_photo"
+            android:layout_below="@+id/rating"
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
             android:text="Subjects: Physics, Chemistry, Mathematics"
+            android:textColor="@color/textColorDark"
             android:textSize="15sp" />
 
         <TextView
@@ -79,6 +86,7 @@
             android:layout_alignStart="@id/person_subjects"
             android:layout_below="@+id/person_subjects"
             android:text="Locations: Gulshan, Dhanmondi, Azimpur"
+            android:textColor="@color/textColorDark"
             android:textSize="15sp" />
 
     </RelativeLayout>

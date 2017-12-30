@@ -1,5 +1,6 @@
 package Model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -7,6 +8,8 @@ import java.util.HashMap;
  */
 
 public final class Database {
+    private static String currentUsername = "";
+
     public static HashMap<String, User> users = new HashMap<>();
 
     public static HashMap<String, AcPreferences> acPreferences = new HashMap<>();
@@ -15,5 +18,13 @@ public final class Database {
 
     public static HashMap<String, Location> locations = new HashMap<>();
 
+    public static ArrayList<TuitionRequest> tuitionRequests = new ArrayList<>();
 
+    public static String getCurrentUsername() {
+        return currentUsername;
+    }
+
+    public static void setCurrentUsername(String currentUsername) {
+        Database.currentUsername = currentUsername;
+    }
 }

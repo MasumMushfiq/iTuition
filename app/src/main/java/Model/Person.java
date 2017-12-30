@@ -6,10 +6,11 @@ package Model;
 
 public class Person {
     private String username;
-    String name;
-    String acBd;
-    String locations;
-    String subjects;
+    private String name;
+    private String acBd;
+    private String locations;
+    private String subjects;
+    private float rating;
 
     public Person(String username) {
         this.username = username;
@@ -26,6 +27,11 @@ public class Person {
             subjects = "Subject Specialty Not Available";
         } else
             subjects = s.getSubjectsAsString();
+        rating = user.getRating();
+    }
+
+    public String getUsername() {
+        return username;
     }
 
     public String getName() {
@@ -42,5 +48,9 @@ public class Person {
 
     public String getSubjects() {
         return subjects;
+    }
+
+    public float getRating() {
+        return rating;
     }
 }
