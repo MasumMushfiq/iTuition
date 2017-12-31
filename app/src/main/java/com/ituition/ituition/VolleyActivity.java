@@ -32,12 +32,12 @@ public class VolleyActivity extends AppCompatActivity {
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
-        StringRequest request = new StringRequest(Request.Method.POST, "http://192.168.0.103/Test/include/test.php",
+        StringRequest request = new StringRequest(Request.Method.POST, "http://192.168.0.103/Test/include/insert.php",
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
-                            Log.d("HelloWorld", "Hello");
+                            Log.d("HelloWorld", response);
                             JSONObject j = new JSONObject(response);
                             tv.setText(String.format("Sum is: %s", j.getString("sum")));
                         } catch (JSONException e) {
@@ -55,8 +55,8 @@ public class VolleyActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> p = new HashMap<>();
-                p.put("A", "10");
-                p.put("B", "12");
+                p.put("id", "1405005");
+                p.put("name", "Nayeem");
                 return p;
             }
         };

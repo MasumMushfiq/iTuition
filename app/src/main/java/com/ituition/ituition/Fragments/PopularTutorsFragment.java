@@ -11,10 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ituition.ituition.R;
+
 import Adapters.RVAdapter;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 
 import Model.Database;
@@ -40,20 +42,27 @@ public class PopularTutorsFragment extends Fragment {
 
     private void initDataset() {
         popularTutors = new ArrayList<>();
-        int i = 0;
-        for (HashMap.Entry<String, User> entry: Database.users.entrySet()){
-            if (i++ == 4)
-                break;
+        final int i = 0;
+        for (HashMap.Entry<String, User> entry : Database.users.entrySet()) {
             popularTutors.add(new Person(entry.getKey()));
         }
-        Collections.shuffle(popularTutors);
-
+        Collections.sort(popularTutors, new Comparator<Person>() {
+            @Override
+            public int compare(Person person, Person t1) {
+                if (person.getRating() > t1.getRating())
+                    return 1;
+                else if (person.getRating() < t1.getRating())
+                    return -1;
+                return 0;
+            }
+        });
+        Collections.reverse(popularTutors);
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.popular_tutors_tab, container, false);
+        return inflater.inflate(R.layout.fragment_popular_tutors, container, false);
     }
 
     @Override

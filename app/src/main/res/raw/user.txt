@@ -1,7 +1,7 @@
 tahmid@#@Tahmid Hasan@#@123@#@01747114321@#@Studying CSE at BUET@#@tahmid.hasan@gmail.com@#@Male@#@4.8@#@500@#@600@#@700@#@800
 imAnik@#@Anik Sarker@#@234@#@01535442211@#@Studying CSE at BUET@#@anik_sarker@outlook.com@#@Male@#@4.3@#@550@#@650@#@750@#@850
 khalid@#@Khalid Hossain@#@1@#@01454988983@#@Studying Civil Engineering at BUET@#@khalid1998@yahoo.com@#@Male@#@4.5@#@450@#@550@#@650@#@700
-Mushfiq@#@Masum Mushfiq@#@m@#@01521441771@#@CSE, BUET@#@mushfiq@gmail.com@#@Male@#@5.0@#@800@#@900@#@1000@#@1200
+Mushfiq@#@Masum Mushfiq@#@m@#@01521441771@#@CSE, BUET@#@mushfiq@gmail.com@#@Male@#@4.0@#@800@#@900@#@1000@#@1200
 tania@#@Tania Sharmin@#@t@#@01737112237@#@Studied Political Science in SUST@#@tania@gmail.com@#@Female@#@4.1@#@350@#@400@#@450@#@500
 Sazid@#@Shahriar Ahmed Ashrafi@#@s@#@01521423420@#@CSE, BUET@#@sazid@yahoo.com@#@Male@#@2.1@#@400@#@450@#@500@#@550
 Rebeka@#@Rebeka Jesmin@#@r@#@01721146030@#@Studying Physics at University of Dhaka@#@rebeka@yahoo.com@#@Female@#@3.4@#@600@#@700@#@800@#@900

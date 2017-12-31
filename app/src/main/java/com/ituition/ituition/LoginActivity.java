@@ -3,6 +3,7 @@ package com.ituition.ituition;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ import Model.SubSpec;
 import Model.User;
 
 public class LoginActivity extends AppCompatActivity {
+    final String TAG = "LoginActivity";
     Button signInBtn;
     Button registerBtn;
     TextView userNameField;
@@ -71,13 +73,14 @@ public class LoginActivity extends AppCompatActivity {
 
 
     }
+
     private void loadDatabase() {
         new Thread(new Runnable() {
             public void run() {
-               loadUsers();
-               loadAcPreferences();
-               loadSubSpec();
-               loadLocations();
+                loadUsers();
+                loadAcPreferences();
+                loadSubSpec();
+                loadLocations();
             }
         }).start();
     }
@@ -85,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
     private void loadUsers() {
         Database.users.clear();
         InputStream inputStream = getResources().openRawResource(
-                getResources().getIdentifier("user", "raw", getPackageName()));
+                getResources().getIdentifier("users", "raw", getPackageName()));
 
         if (inputStream != null) {
             try {
@@ -93,8 +96,8 @@ public class LoginActivity extends AppCompatActivity {
                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
                 String receivedString = "";
 
+                bufferedReader.readLine();
                 while ((receivedString = bufferedReader.readLine()) != null) {
-                    //System.out.println(receiveString);
                     User user = new User(receivedString);
                     Database.users.put(user.getUserName(), user);
                 }
@@ -110,17 +113,17 @@ public class LoginActivity extends AppCompatActivity {
     private void loadAcPreferences() {
         Database.acPreferences.clear();
         InputStream inputStream = getResources().openRawResource(
-                getResources().getIdentifier("ac_pref", "raw", getPackageName()));
+                getResources().getIdentifier("academic_levels", "raw", getPackageName()));
 
         if (inputStream != null) {
             try {
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
                 String input = "";
-
+                bufferedReader.readLine();
                 while ((input = bufferedReader.readLine()) != null) {
                     //System.out.println(receiveString);
-                    String data[] = input.split("@#@");
+                    String data[] = input.split(",");
                     if (Database.acPreferences.containsKey(data[0])) {
                         Database.acPreferences.get(data[0]).addPref(data[1]);
                     } else {
@@ -141,17 +144,17 @@ public class LoginActivity extends AppCompatActivity {
     private void loadSubSpec() {
         Database.subSpecs.clear();
         InputStream inputStream = getResources().openRawResource(
-                getResources().getIdentifier("sub_spec", "raw", getPackageName()));
+                getResources().getIdentifier("subjects", "raw", getPackageName()));
 
         if (inputStream != null) {
             try {
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
                 String input = "";
-
+                bufferedReader.readLine();
                 while ((input = bufferedReader.readLine()) != null) {
                     //System.out.println(receiveString);
-                    String data[] = input.split("@#@");
+                    String data[] = input.split(",");
                     if (Database.subSpecs.containsKey(data[0])) {
                         Database.subSpecs.get(data[0]).addSubSpec(data[1]);
                     } else {
@@ -159,6 +162,7 @@ public class LoginActivity extends AppCompatActivity {
                         subSpec.addSubSpec(data[1]);
                         Database.subSpecs.put(data[0], subSpec);
                     }
+                    Database.subjectSet.add(data[1]);
                 }
                 inputStream.close();
                 inputStreamReader.close();
@@ -172,18 +176,18 @@ public class LoginActivity extends AppCompatActivity {
     private void loadLocations() {
         Database.locations.clear();
         InputStream inputStream = getResources().openRawResource(
-                getResources().getIdentifier("location", "raw", getPackageName()));
+                getResources().getIdentifier("locations", "raw", getPackageName()));
 
         if (inputStream != null) {
             try {
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
                 String input = "";
-
+                bufferedReader.readLine();
                 while ((input = bufferedReader.readLine()) != null) {
                     //System.out.println(receiveString);
                     System.out.println(input);
-                    String data[] = input.split("@#@");
+                    String data[] = input.split(",");
                     if (Database.locations.containsKey(data[0])) {
                         Database.locations.get(data[0]).addLocation(data[1]);
                     } else {
@@ -191,6 +195,7 @@ public class LoginActivity extends AppCompatActivity {
                         location.addLocation(data[1]);
                         Database.locations.put(data[0], location);
                     }
+                    Database.locationSet.add(data[1]);
                 }
                 inputStream.close();
                 inputStreamReader.close();
@@ -199,6 +204,7 @@ public class LoginActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+
     }
 
     public int verifyLogin(String userName, String password) {

@@ -36,7 +36,7 @@ public class SubSpec {
     }
 
     public String getSubjectsAsString() {
-        StringBuilder sb = new StringBuilder("Subjects: ");
+        StringBuilder sb = new StringBuilder("subjects: ");
         for (String s :
                 subSpec) {
             sb.append(s).append(", ");
@@ -44,5 +44,9 @@ public class SubSpec {
         String s = sb.toString();
         s = s.substring(0, s.length() - 2);
         return s;
+    }
+
+    public boolean contains(String subject) {
+        return subSpec.contains(subject);
     }
 }

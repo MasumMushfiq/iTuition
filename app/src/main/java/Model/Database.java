@@ -2,6 +2,7 @@ package Model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 /**
  * Created by mushfiq on 11/17/17.
@@ -17,6 +18,10 @@ public final class Database {
     public static HashMap<String, SubSpec> subSpecs = new HashMap<>();
 
     public static HashMap<String, Location> locations = new HashMap<>();
+
+    public static HashSet<String> locationSet = new HashSet<>();
+
+    public static HashSet<String> subjectSet = new HashSet<>();
 
     public static ArrayList<TuitionRequest> tuitionRequests = new ArrayList<>();
 

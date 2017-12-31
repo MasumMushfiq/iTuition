@@ -36,7 +36,7 @@ public class Location {
     }
 
     public String getLocationAsString() {
-        StringBuilder sb = new StringBuilder("Locations: ");
+        StringBuilder sb = new StringBuilder("locations: ");
         for (String s :
                 locations) {
             sb.append(s).append(", ");
@@ -45,4 +45,6 @@ public class Location {
         s = s.substring(0, s.length() - 2);
         return s;
     }
+
+
 }

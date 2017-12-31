@@ -30,20 +30,20 @@ public class User {
     }
 
     public User(String data) {
-        String array[] = data.split("@#@");
+        String array[] = data.split(",");
         userName = array[0];
-        name = array[1];
-        password = array[2];
+        password = array[1];
+        name = array[2];
         contactNo = array[3];
-        academicBackground = array[4];
-        email = array[5];
+        email = array[4];
+        academicBackground = array[5];
         gender = array[6];
-        rating = Float.parseFloat(array[7]);
+        rating = Float.parseFloat(array[7]) / 10;
         oneSalary = (int)Double.parseDouble(array[8]);
         twoSalary = (int)Double.parseDouble(array[9]);
         threeSalary = (int)Double.parseDouble(array[10]);
         moreSalary = (int)Double.parseDouble(array[11]);
-        Log.d("Salary", oneSalary + " " + twoSalary + " " + threeSalary + " " + moreSalary);
+        //Log.d("Salary", oneSalary + " " + twoSalary + " " + threeSalary + " " + moreSalary);
     }
 
     public String getUserName() {
