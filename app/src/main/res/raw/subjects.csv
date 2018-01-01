@@ -2,12 +2,12 @@ Username,Subject
 1405001,Physics
 1405001,ICT
 1405001,Math
-1405002,Math
-1405002,Physics
+1405002,Bangla
 1405002,English
-1405002,Math
-1405003,Bangla
-1405003,English
+1405003,Physics
+1405003,Chemistry
+1405003,Math
+1405003,ICT
 1405004,ICT
 1405004,Chemistry
 1405004,Biology
@@ -292,7 +292,7 @@ Username,Subject
 1405100,Bangla
 1405101,ICT
 1405101,Physics
-1405101,ICT
+1405101,Math
 1405102,Bangla
 1405102,Biology
 1405103,Biology

@@ -23,6 +23,8 @@ public final class Database {
 
     public static HashSet<String> subjectSet = new HashSet<>();
 
+    public static HashSet<String> academicLevelSet = new HashSet<>();
+
     public static ArrayList<TuitionRequest> tuitionRequests = new ArrayList<>();
 
     public static String getCurrentUsername() {

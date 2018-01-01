@@ -69,12 +69,13 @@ public class RegistrationActivity extends AppCompatActivity {
                 boolean validation = isNameValid(nameText) && isUsernameValid(usernameText)
                         && isEmailValid(emailText) && isContactNo(contactNoText) && isPasswordValid(pwText, confirmPwText);
                 if (validation) {
-                    Intent intent = new Intent(RegistrationActivity.this, ProfileActivity.class);
+                    Intent intent = new Intent(RegistrationActivity.this, UserHomeActivity.class);
                     {
                         User user = new User(usernameText, nameText, pwText, contactNoText, emailText, "", genderText, 0);
                         Database.users.put(usernameText, user);
                     }
-                    intent.putExtra("username", usernameText);
+                    Database.setCurrentUsername(usernameText);
+                    intent.putExtra("activity", 1);
                     startActivity(intent);
                 }
             }

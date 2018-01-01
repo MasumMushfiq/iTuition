@@ -131,6 +131,7 @@ public class LoginActivity extends AppCompatActivity {
                         acPreferences.addPref(data[1]);
                         Database.acPreferences.put(data[0], acPreferences);
                     }
+                    Database.academicLevelSet.add(data[1]);
                 }
                 inputStream.close();
                 inputStreamReader.close();
@@ -186,7 +187,6 @@ public class LoginActivity extends AppCompatActivity {
                 bufferedReader.readLine();
                 while ((input = bufferedReader.readLine()) != null) {
                     //System.out.println(receiveString);
-                    System.out.println(input);
                     String data[] = input.split(",");
                     if (Database.locations.containsKey(data[0])) {
                         Database.locations.get(data[0]).addLocation(data[1]);

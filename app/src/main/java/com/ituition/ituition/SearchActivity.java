@@ -27,6 +27,7 @@ public class SearchActivity extends AppCompatActivity {
     String query = "";
     RecyclerView rv;
     Button btn_filter;
+    Button display_query;
     RVAdapter adapter;
     LinearLayoutManager llm;
     ArrayList<Person> resultData;
@@ -35,6 +36,10 @@ public class SearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+
+        rv = (RecyclerView) findViewById(R.id.rv_search_result);
+        btn_filter = (Button) findViewById(R.id.btn_filter);
+        display_query = (Button) findViewById(R.id.btn_query_display);
 
         resultData = new ArrayList<>();
 
@@ -46,9 +51,6 @@ public class SearchActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.search_toolbar);
         setSupportActionBar(toolbar);
-
-        rv = (RecyclerView) findViewById(R.id.rv_search_result);
-        btn_filter = (Button) findViewById(R.id.btn_filter);
 
         setupRecyclerView();
 
@@ -95,6 +97,7 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void processQuery(String query) {
+        display_query.setText(query);
         String[] words = query.split(" ");
         ArrayList<String> subs = new ArrayList<>();
         ArrayList<String> locs = new ArrayList<>();
@@ -111,14 +114,14 @@ public class SearchActivity extends AppCompatActivity {
 
         for (String s : subs) {
             for (Map.Entry<String, SubSpec> entry: Database.subSpecs.entrySet()){
-                if (entry.getValue().getSubjectsAsString().toUpperCase().contains(s.toUpperCase())){
+                if (entry.getValue().getSubjectsAsString().contains(s)){
                     users.add(entry.getKey());
                 }
             }
         }
         for (String s : locs) {
             for (Map.Entry<String, Location> entry: Database.locations.entrySet()){
-                if (entry.getValue().getLocationAsString().toUpperCase().contains(s.toUpperCase())){
+                if (entry.getValue().getLocationAsString().contains(s)){
                     users1.add(entry.getKey());
                 }
             }

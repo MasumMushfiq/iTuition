@@ -1,6 +1,8 @@
 package com.ituition.ituition;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -16,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import Adapters.ELVAdapter;
+import Model.Database;
 
 public class SearchFilterActivity extends AppCompatActivity {
     ELVAdapter listAdapter;
@@ -33,7 +36,7 @@ public class SearchFilterActivity extends AppCompatActivity {
 
 
         expListView = (ExpandableListView) findViewById(R.id.elv_SearchFilter);
-        Button button = (Button) findViewById(R.id.btn_submit_filter_req);
+        FloatingActionButton button = (FloatingActionButton) findViewById(R.id.fab_submit_filter_req);
         final TextView textView = (TextView) findViewById(R.id.textView);
 
         prepareListData();
@@ -106,10 +109,12 @@ public class SearchFilterActivity extends AppCompatActivity {
                 for (int mGroupPosition = 0; mGroupPosition < listAdapter.getGroupCount(); mGroupPosition++) {
                     ArrayList<String> s = listAdapter.getCheckedItems(mGroupPosition);
                     for (String x : s ) {
-                        res.append(x);
+                        res.append(x).append(" ");
                     }
                 }
-                textView.setText(String.valueOf(res.toString()));
+                Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
+                intent.putExtra("query", res.toString());
+                startActivity(intent);
             }
         });
     }
@@ -126,35 +131,19 @@ public class SearchFilterActivity extends AppCompatActivity {
         listDataChild = new HashMap<>();
 
         // Adding header data
-        listDataHeader.add("subjects");
-        listDataHeader.add("locations");
-        listDataHeader.add("Academic Level");
+        listDataHeader.add("Subjects");
+        listDataHeader.add("Locations");
+        listDataHeader.add("Academic Levels");
 
         // Adding child data
         List<String> subjects = new ArrayList<>();
-        subjects.add("Physics");
-        subjects.add("Chemistry");
-        subjects.add("Math");
-        subjects.add("Biology");
-        subjects.add("Bangla");
-        subjects.add("English");
-        subjects.add("ICT");
+        subjects.addAll(Database.subjectSet);
 
         List<String> locations = new ArrayList<>();
-        locations.add("Gulshan");
-        locations.add("Bonani");
-        locations.add("Dhanmondi");
-        locations.add("Azimpur");
-        locations.add("Uttora");
-        locations.add("Rampura");
+        locations.addAll(Database.locationSet);
 
         List<String> academicLevel = new ArrayList<>();
-        academicLevel.add("Primary");
-        academicLevel.add("SSC");
-        academicLevel.add("HSC");
-        academicLevel.add("Admission");
-        academicLevel.add("English Medium");
-        academicLevel.add("English Version");
+        academicLevel.addAll(Database.academicLevelSet);
 
 
         listDataChild.put(listDataHeader.get(0), subjects); // Header, Child data
