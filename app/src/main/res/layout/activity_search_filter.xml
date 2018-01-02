@@ -62,8 +62,8 @@
             android:layout_height="wrap_content"
             android:hint="Salary/Day:"
             android:textColor="#000000"
-            android:textColorHint="@color/colorPrimary"
-            android:textColorLink="@color/colorPrimary" />
+            android:textColorHint="@color/textColorDark"
+            android:textColorLink="@color/textColorDark" />
     </android.support.design.widget.TextInputLayout>
 
 
@@ -88,8 +88,8 @@
             android:layout_height="wrap_content"
             android:hint="Custom Location:"
             android:textColor="#000000"
-            android:textColorHint="@color/colorPrimary"
-            android:textColorLink="@color/colorPrimary" />
+            android:textColorHint="@color/textColorDark"
+            android:textColorLink="@color/textColorDark" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.FloatingActionButton

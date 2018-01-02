@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import adapters.ELVAdapter;
-import model.Database;
+import model.DB;
 
 public class SearchFilterActivity extends AppCompatActivity {
     ELVAdapter listAdapter;
@@ -30,6 +30,13 @@ public class SearchFilterActivity extends AppCompatActivity {
 
     ArrayList<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
+
+    List<String> subjects;
+    List<String> locations;
+    List<String> academicLevel;
+    List<String> gender;
+    List<String> dept;
+    List<String> institutes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +53,11 @@ public class SearchFilterActivity extends AppCompatActivity {
         nos_progress = (TextView) findViewById(R.id.my_seekbar_value);
         salary = (TextView) findViewById(R.id.sf_salary_field);
 
-        prepareListData();
+
+        setupListHeaders();
 
         setupExpandableListView();
         setupSeekBar();
-
 
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -60,7 +67,7 @@ public class SearchFilterActivity extends AppCompatActivity {
 
                 //getting the subs
                 ArrayList<String> s = listAdapter.getCheckedItems(0);
-                for (String x : s ) {
+                for (String x : s) {
                     res.append(x).append(" ");
                 }
                 intent.putExtra("subjects", res.toString());
@@ -68,7 +75,7 @@ public class SearchFilterActivity extends AppCompatActivity {
                 //getting locations
                 res = new StringBuilder();
                 s = listAdapter.getCheckedItems(1);
-                for (String x: s) {
+                for (String x : s) {
                     res.append(x).append(" ");
                 }
                 intent.putExtra("locations", res.toString());
@@ -76,7 +83,7 @@ public class SearchFilterActivity extends AppCompatActivity {
                 //getting academic levels
                 res = new StringBuilder();
                 s = listAdapter.getCheckedItems(2);
-                for (String x: s) {
+                for (String x : s) {
                     res.append(x).append(" ");
                 }
                 intent.putExtra("ac_levels", res.toString());
@@ -84,10 +91,24 @@ public class SearchFilterActivity extends AppCompatActivity {
                 //getting gender
                 res = new StringBuilder();
                 s = listAdapter.getCheckedItems(3);
-                for (String x: s) {
+                for (String x : s) {
                     res.append(x).append(" ");
                 }
                 intent.putExtra("genders", res.toString());
+
+                res = new StringBuilder();
+                s = listAdapter.getCheckedItems(4);
+                for (String x:s){
+                    res.append(x).append(" ");
+                }
+                intent.putExtra("depts", res.toString());
+
+                res = new StringBuilder();
+                s = listAdapter.getCheckedItems(5);
+                for (String x: s) {
+                    res.append(x).append(" ");
+                }
+                intent.putExtra("institutes", res.toString());
 
                 intent.putExtra("nos", nos_value);
 
@@ -106,38 +127,35 @@ public class SearchFilterActivity extends AppCompatActivity {
         return true;
     }
 
-    private void prepareListData() {
+    private void setupListHeaders(){
         listDataHeader = new ArrayList<>();
         listDataChild = new HashMap<>();
 
         // Adding header data
         listDataHeader.add("Subjects");
+        listDataHeader.add("Locations");
         listDataHeader.add("Academic Levels");
         listDataHeader.add("Gender");
-        listDataHeader.add("Locations");
+        listDataHeader.add("Departments");
+        listDataHeader.add("Institutes");
 
-        // Adding child data
-        List<String> subjects = new ArrayList<>();
-        subjects.addAll(Database.subjectSet);
-
-        List<String> locations = new ArrayList<>();
-        locations.addAll(Database.locationSet);
-
-        List<String> academicLevel = new ArrayList<>();
-        academicLevel.addAll(Database.academicLevelSet);
-
-        List<String> gender = new ArrayList<>();
-        gender.add("Male");
-        gender.add("Female");
-
+        subjects = new ArrayList<>(DB.subjects.values());
+        locations = new ArrayList<>(DB.locations.values());
+        academicLevel = new ArrayList<>(DB.academicLevel.values());
+        gender = new ArrayList<>(DB.gender.values());
+        dept = new ArrayList<>(DB.departments.values());
+        institutes = new ArrayList<>(DB.institutes.values());
 
         listDataChild.put(listDataHeader.get(0), subjects); // Header, Child data
-        listDataChild.put(listDataHeader.get(1), academicLevel);
-        listDataChild.put(listDataHeader.get(2), gender);
-        listDataChild.put(listDataHeader.get(3), locations);
+        listDataChild.put(listDataHeader.get(1), locations);
+        listDataChild.put(listDataHeader.get(2), academicLevel);
+        listDataChild.put(listDataHeader.get(3), gender);
+        listDataChild.put(listDataHeader.get(4), dept);
+        listDataChild.put(listDataHeader.get(5), institutes);
+
     }
 
-    private void setupExpandableListView(){
+    private void setupExpandableListView() {
 
         listAdapter = new ELVAdapter(this, listDataHeader, listDataChild);
 
@@ -199,7 +217,7 @@ public class SearchFilterActivity extends AppCompatActivity {
         });
     }
 
-    private void setupSeekBar(){
+    private void setupSeekBar() {
         nos.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -212,13 +230,13 @@ public class SearchFilterActivity extends AppCompatActivity {
 
             public void onStopTrackingTouch(SeekBar seekBar) {
                 nos_value = seekBar.getProgress() + 1;
-                Toast.makeText(getApplicationContext(), "Seek bar progress is :" +nos_value,
+                Toast.makeText(getApplicationContext(), "Seek bar progress is :" + nos_value,
                         Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private int getSalary(){
+    private int getSalary() {
         String s = salary.getText().toString();
         int val = 0;
 

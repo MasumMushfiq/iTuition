@@ -33,6 +33,7 @@ import java.util.Map;
 
 import app.AppController;
 import model.AcPreferences;
+import model.DB;
 import model.Database;
 import model.Location;
 import model.SubSpec;
@@ -53,6 +54,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         loadDatabase();
 
+        DB.getInstance();
 
 
         signInBtn = (Button) findViewById(R.id.signInBtn);
@@ -89,7 +91,7 @@ public class LoginActivity extends AppCompatActivity {
                 loadAcPreferences();
                 loadSubSpec();
                 loadLocations();
-                for (String s : Database.locationSet) {
+                /*for (String s : Database.locationSet) {
                     LatLng latLng = getLocationFromAddress(getApplicationContext(), s + ", Dhaka, Bangladesh");
                     latLngs.add(latLng);
                 }
@@ -100,7 +102,7 @@ public class LoginActivity extends AppCompatActivity {
                                 latLngs.get(i).latitude, latLngs.get(i).longitude, latLngs.get(j).latitude, latLngs.get(j).longitude, results);
                         Log.d("Mushfiq_l", String.valueOf(results[0]));
                     }
-                }
+                }*/
             }
         }).start();
     }

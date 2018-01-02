@@ -69,9 +69,9 @@ public class UserHomeActivity extends AppCompatActivity {
         });
 
 
-        final View notificaitons = menu.findItem(R.id.action_notification).getActionView();
+        final View notifications = menu.findItem(R.id.action_notification).getActionView();
 
-        textCartItemCount = (TextView) notificaitons.findViewById(R.id.txtCount);
+        textCartItemCount = (TextView) notifications.findViewById(R.id.txtCount);
         updateHotCount(mCartItemCount++);
         textCartItemCount.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,7 +79,7 @@ public class UserHomeActivity extends AppCompatActivity {
                 updateHotCount(mCartItemCount++);
             }
         });
-        notificaitons.setOnClickListener(new View.OnClickListener() {
+        notifications.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //    TODO

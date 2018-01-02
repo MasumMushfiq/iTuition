@@ -45,7 +45,6 @@ public class TutorsNearYouFragment extends Fragment {
             tutorsNearU.add(new Person(entry.getKey()));
         }
         Collections.shuffle(tutorsNearU);
-        Log.d("MyRV", "Tutors near you size" + tutorsNearU.size());
 
     }
 

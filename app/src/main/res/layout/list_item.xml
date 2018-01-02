@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="40dp">
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/elv_ListItem"
@@ -10,9 +10,9 @@
         android:layout_alignParentStart="true"
         android:layout_margin="5dp"
         android:layout_toStartOf="@+id/elv_child_checkbox"
-        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
         android:textColor="@color/textColorDark"
-        android:textAppearance="@android:style/TextAppearance.Material.Medium" />
+        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
+        android:textAppearance="@android:style/TextAppearance.Material.Small" />
 
     <CheckBox
         android:id="@+id/elv_child_checkbox"
