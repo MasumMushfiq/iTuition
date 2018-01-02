@@ -17,14 +17,23 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Map;
 
-import Adapters.RVAdapter;
-import Model.Database;
-import Model.Location;
-import Model.Person;
-import Model.SubSpec;
+import adapters.RVAdapter;
+import model.Database;
+import model.Location;
+import model.Person;
+import model.SubSpec;
 
 public class SearchActivity extends AppCompatActivity {
+    final String TAG = "Mushfiq_SA";
+
     String query = "";
+    String subjectQuery = "";
+    String locationQuery = "";
+    String genderQuery = "";
+    String ac_levelQuery = "";
+    int nosQuery = 0;
+    int salaryQuery = 0;
+
     RecyclerView rv;
     Button btn_filter;
     Button display_query;
@@ -45,8 +54,17 @@ public class SearchActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            query = (String) bundle.get("query");
-            processQuery(query);
+            query = bundle.getString("query");
+            if (query != null){
+                processQuery(query);
+            } else {
+                subjectQuery = bundle.getString("subjects");
+                locationQuery = bundle.getString("locations");
+                ac_levelQuery = bundle.getString("ac_levels");
+                genderQuery = bundle.getString("genders");
+                salaryQuery = bundle.getInt("salary");
+                nosQuery = bundle.getInt("nos");
+            }
         }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.search_toolbar);
@@ -97,7 +115,6 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void processQuery(String query) {
-        display_query.setText(query);
         String[] words = query.split(" ");
         ArrayList<String> subs = new ArrayList<>();
         ArrayList<String> locs = new ArrayList<>();
@@ -133,6 +150,8 @@ public class SearchActivity extends AppCompatActivity {
         for (String s: users) {
             resultData.add(new Person(s));
         }
+        String s = String.format("Query: \"%s\"   No. of Results: %d", query, resultData.size());
+        display_query.setText(s);
     }
 
 }

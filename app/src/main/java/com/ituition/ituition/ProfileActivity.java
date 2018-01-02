@@ -1,23 +1,39 @@
 package com.ituition.ituition;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 
-import Model.Database;
-import Model.User;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import app.AppController;
+import model.Database;
+import model.User;
 
 public class ProfileActivity extends AppCompatActivity {
     String userName = "";
-    User user;
+    final User user = new User();
     Button next;
     TextView prefField;
     TextView specialtyField;
@@ -33,19 +49,23 @@ public class ProfileActivity extends AppCompatActivity {
     TextView moreSalary;
     int activity;
 
+    private TextView textCartItemCount;
+    private int mCartItemCount = 5;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.pa_toolbar);
+        setSupportActionBar(toolbar);
+
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            activity = (int) bundle.get("activity");
-        }
-
-        if (activity == 1){
-            userName = Database.getCurrentUsername();
-        } else if (activity == 2 && bundle != null) {
-            userName = (String) bundle.get("username");
+            activity = bundle.getInt("activity");
+            userName = bundle.getString("username");
+            if (userName == null)
+                userName = Database.getCurrentUsername();
         }
 
         next = (Button) findViewById(R.id.profileNext);
@@ -62,20 +82,10 @@ public class ProfileActivity extends AppCompatActivity {
         threeSalary = (TextView) findViewById(R.id.threePersonSalary);
         moreSalary = (TextView) findViewById(R.id.morePersonSalary);
 
-        user = Database.users.get(userName);
-
-        prefField.setText(getAcademicPreferences());
-        specialtyField.setText(getSubjectSpecialty());
-        nameField.setText(getName());
-        acBdField.setText(Database.users.get(userName).getAcademicBackground());
-        contactNoField.setText(Database.users.get(userName).getContactNo());
-        emailField.setText(Database.users.get(userName).getEmail());
-        locationField.setText(getLocations());
+        //user = Database.users.get(userName);
         profilePicture.setImageResource(R.drawable.ic_contact_picture);
-        oneSalary.setText(String.valueOf(user.getOneSalary()));
-        twoSalary.setText(String.valueOf(user.getTwoSalary()));
-        threeSalary.setText(String.valueOf(user.getThreeSalary()));
-        moreSalary.setText(String.valueOf(user.getMoreSalary()));
+
+        new GetProfile().execute();
 
         if (activity == 1) {
             next.setText("  Update Info  ");
@@ -91,7 +101,8 @@ public class ProfileActivity extends AppCompatActivity {
             next.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(ProfileActivity.this, RequestTuition.class);
+                    Intent intent = new Intent(ProfileActivity.this, RequestTuitionActivity.class);
+                    intent.putExtra("tutorname", userName);
                     startActivity(intent);
                 }
             });
@@ -101,42 +112,162 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-    private String getAcademicPreferences() {
-        StringBuilder x = new StringBuilder();
-        if (!Database.acPreferences.containsKey(userName))
-            return "";
-        ArrayList<String> prefs = Database.acPreferences.get(userName).getAcPrefs();
-        for (String s : prefs) {
-            x.append(s).append("\n");
-        }
-        return x.toString().substring(0, x.length() - 1);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.user_home_menu, menu);
+
+        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
+                intent.putExtra("query", query);
+                startActivity(intent);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+
+        final View notifications = menu.findItem(R.id.action_notification).getActionView();
+
+        textCartItemCount = (TextView) notifications.findViewById(R.id.txtCount);
+        updateHotCount(mCartItemCount++);
+        textCartItemCount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateHotCount(mCartItemCount++);
+            }
+        });
+        notifications.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //    TODO
+            }
+        });
+
+        return true;
     }
 
-    private String getLocations() {
-        StringBuilder x = new StringBuilder();
-        if (!Database.locations.containsKey(userName))
-            return "";
-        ArrayList<String> prefs = Database.locations.get(userName).getLocations();
-        for (String s : prefs) {
-            x.append(s).append("\n");
-        }
-        System.out.println(x);
-        return x.toString().substring(0, x.length() - 1);
+    public void updateHotCount(final int new_hot_number) {
+        mCartItemCount = new_hot_number;
+        if (mCartItemCount < 0) return;
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (mCartItemCount == 0)
+                    textCartItemCount.setVisibility(View.GONE);
+                else {
+                    textCartItemCount.setVisibility(View.VISIBLE);
+                    textCartItemCount.setText(Integer.toString(mCartItemCount));
+                }
+            }
+        });
     }
 
+    private class GetProfile extends AsyncTask<Void, Void, Void> {
+        final String[] strings = new String[1];
 
-    private String getSubjectSpecialty() {
-        StringBuilder x = new StringBuilder();
-        if (!Database.subSpecs.containsKey(userName))
-            return "";
-        ArrayList<String> specs = Database.subSpecs.get(userName).getSubSpec();
-        for (String s : specs) {
-            x.append(s).append("\n");
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
         }
-        return x.toString().substring(0, x.length() - 1);
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            StringRequest request = new StringRequest(Request.Method.POST, "http://192.168.0.103/Test/include/324/get_tutor_data.php",
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(final String response) {
+                            strings[0] = response;
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    try {
+                                        setupUser(strings[0]);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.d("Mushfiq_pa", error.toString());
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> map = new HashMap<>();
+                    map.put("username", userName);
+                    return map;
+                }
+            };
+
+            AppController.getInstance().addToRequestQueue(request);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            super.onPostExecute(result);
+        }
     }
 
-    private String getName() {
-        return Database.users.get(userName).getName();
+    private void setupUser(String x) throws JSONException {
+        JSONObject user = new JSONObject(x);
+        user = user.getJSONObject("user");
+        String name = user.getString("name");
+        String qualifications = user.getString("qualifications");
+        Double rating = user.getDouble("rating");
+        String contact_no = user.getString("contact-no");
+        String email_id = user.getString("email-id");
+        String gender = user.getString("gender");
+        String sal1 = user.getString("salary_1");
+        String sal2 = user.getString("salary_2");
+        String sal3 = user.getString("salary_3");
+        String sal4 = user.getString("salary_more");
+        JSONArray subs = user.getJSONArray("subjects");
+        JSONArray locs = user.getJSONArray("locations");
+        JSONArray acprfs = user.getJSONArray("aclevels");
+        StringBuilder sb = new StringBuilder("");
+
+        for (int i = 0; i < subs.length(); i++) {
+            sb.append(subs.getString(i)).append("\n");
+        }
+        String sub = sb.toString().substring(0, sb.length() - 1);
+
+        sb = new StringBuilder("");
+
+        for (int i = 0; i < locs.length(); i++) {
+            sb.append(locs.getString(i)).append("\n");
+        }
+        String loc = sb.toString().substring(0, sb.length() - 1);
+
+        sb = new StringBuilder("");
+
+        for (int i = 0; i < acprfs.length(); i++) {
+            sb.append(acprfs.getString(i)).append("\n");
+        }
+        String ac = sb.toString().substring(0, sb.length() - 1);
+
+        prefField.setText(ac);
+        specialtyField.setText(sub);
+        nameField.setText(name);
+        acBdField.setText(qualifications);
+        contactNoField.setText(contact_no);
+        emailField.setText(email_id);
+        locationField.setText(loc);
+        oneSalary.setText(sal1);
+        twoSalary.setText(sal2);
+        threeSalary.setText(sal3);
+        moreSalary.setText(sal4);
+
     }
 }

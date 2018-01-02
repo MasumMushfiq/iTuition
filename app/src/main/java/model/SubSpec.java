@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 import java.util.ArrayList;
 
@@ -36,7 +36,7 @@ public class SubSpec {
     }
 
     public String getSubjectsAsString() {
-        StringBuilder sb = new StringBuilder("subjects: ");
+        StringBuilder sb = new StringBuilder("Subjects: ");
         for (String s :
                 subSpec) {
             sb.append(s).append(", ");

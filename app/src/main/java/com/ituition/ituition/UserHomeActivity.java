@@ -10,14 +10,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
-import com.ituition.ituition.Fragments.LatestReviewsFragment;
-import com.ituition.ituition.Fragments.PopularTutorsFragment;
+import com.ituition.ituition.fragments.LatestReviewsFragment;
+import com.ituition.ituition.fragments.PopularTutorsFragment;
 
-import Adapters.VPAdapter;
+import adapters.VPAdapter;
 
 public class UserHomeActivity extends AppCompatActivity {
     private ViewPager viewPager;
+    private TextView textCartItemCount;
+    private int mCartItemCount = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,15 +68,41 @@ public class UserHomeActivity extends AppCompatActivity {
             }
         });
 
-        /*SearchManager searchManager =
-                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView =
-                (SearchView) menu.findItem(R.id.action_search).getActionView();
-        assert searchManager != null;
-        searchView.setSearchableInfo(
-                searchManager.getSearchableInfo(getComponentName()));*/
+
+        final View notificaitons = menu.findItem(R.id.action_notification).getActionView();
+
+        textCartItemCount = (TextView) notificaitons.findViewById(R.id.txtCount);
+        updateHotCount(mCartItemCount++);
+        textCartItemCount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateHotCount(mCartItemCount++);
+            }
+        });
+        notificaitons.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //    TODO
+            }
+        });
 
         return true;
+    }
+
+    public void updateHotCount(final int new_hot_number) {
+        mCartItemCount = new_hot_number;
+        if (mCartItemCount < 0) return;
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (mCartItemCount == 0)
+                    textCartItemCount.setVisibility(View.GONE);
+                else {
+                    textCartItemCount.setVisibility(View.VISIBLE);
+                    textCartItemCount.setText(Integer.toString(mCartItemCount));
+                }
+            }
+        });
     }
 
     @Override
@@ -83,6 +113,9 @@ public class UserHomeActivity extends AppCompatActivity {
                 /*intent = new Intent(getApplicationContext(), SearchActivity.class);
                 startActivity(intent);*/
                 return true;
+            case R.id.action_notification:
+
+                return false;
             case R.id.action_account:
                 intent = new Intent(UserHomeActivity.this, ProfileActivity.class);
                 intent.putExtra("activity", 1);
@@ -95,4 +128,6 @@ public class UserHomeActivity extends AppCompatActivity {
         }
         return true;
     }
+
 }
+

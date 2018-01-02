@@ -56,7 +56,7 @@
             android:textSize="15sp" />
 
         <RatingBar
-            android:id="@+id/rating"
+            android:id="@+id/pc_rating_bar"
             style="@style/RatingBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -65,14 +65,24 @@
             android:layout_marginTop="3dp"
             android:clickable="false"
             android:isIndicator="true"
-            android:rating="1.5" />
+            android:rating="3.5" />
+
+        <TextView
+            android:id="@+id/pc_rating_bar_value"
+            android:layout_toEndOf="@id/pc_rating_bar"
+            android:layout_alignTop="@id/pc_rating_bar"
+            android:text="3.5"
+            android:textColor="@color/textColorDark"
+            android:layout_marginStart="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
 
         <TextView
             android:id="@+id/person_subjects"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/rating"
+            android:layout_below="@+id/pc_rating_bar"
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
             android:text="Subjects: Physics, Chemistry, Mathematics"

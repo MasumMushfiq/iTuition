@@ -23,22 +23,74 @@
     </android.support.design.widget.AppBarLayout>
 
     <Button
-        style="@android:style/Widget.Material.Light.Button.Borderless"
         android:id="@+id/btn_filter_header"
+        style="@android:style/Widget.Material.Light.Button.Borderless"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
         android:layout_below="@+id/search_filter_appbar"
         android:text="Advanced Search"
-        android:textColor="@color/colorPrimaryDark"
-        android:textAppearance="@android:style/TextAppearance.Material.Display1" />
+        android:textAppearance="@android:style/TextAppearance.Material.Button" />
+
+    <TextView
+        android:id="@+id/sf_nos_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_filter_header"
+        android:layout_alignParentStart="true"
+        android:textColor="@color/textColorDark"
+        android:layout_marginStart="20dp"
+        android:text="No of Students: " />
+
+    <include layout="@layout/my_seekbar"
+        android:layout_below="@id/sf_nos_label"
+        android:id="@+id/sf_nos_seekbar"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content" />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/sf_salary_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sf_nos_seekbar"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="20dp">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/sf_salary_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Salary/Day:"
+            android:textColor="#000000"
+            android:textColorHint="@color/colorPrimary"
+            android:textColorLink="@color/colorPrimary" />
+    </android.support.design.widget.TextInputLayout>
+
 
     <ExpandableListView
         android:id="@+id/elv_SearchFilter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/fab_submit_filter_req"
-        android:layout_below="@id/btn_filter_header"/>
+        android:layout_above="@id/sf_custom_location"
+        android:layout_below="@id/sf_salary_label"/>
 
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/sf_custom_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/fab_submit_filter_req"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="20dp">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/sf_custom_location_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Custom Location:"
+            android:textColor="#000000"
+            android:textColorHint="@color/colorPrimary"
+            android:textColorLink="@color/colorPrimary" />
+    </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_submit_filter_req"

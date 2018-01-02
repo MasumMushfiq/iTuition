@@ -1,4 +1,4 @@
-package Adapters;
+package adapters;
 
 import android.content.Intent;
 import android.support.v7.widget.CardView;
@@ -15,7 +15,7 @@ import com.ituition.ituition.R;
 
 import java.util.ArrayList;
 
-import Model.Person;
+import model.Person;
 
 /**
  * Created by tahmid on 12/4/17.
@@ -31,6 +31,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.UserViewHolder> {
         TextView personLocations;
         TextView personBackground;
         RatingBar ratingBar;
+        TextView ratingBarValue;
         ImageView personPhoto;
 
         public UserViewHolder(View itemView) {
@@ -41,7 +42,8 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.UserViewHolder> {
             personLocations = (TextView) itemView.findViewById(R.id.person_location);
             personBackground = (TextView) itemView.findViewById(R.id.person_background);
             personPhoto = (ImageView) itemView.findViewById(R.id.person_photo);
-            ratingBar = (RatingBar) itemView.findViewById(R.id.rating);
+            ratingBar = (RatingBar) itemView.findViewById(R.id.pc_rating_bar);
+            ratingBarValue = (TextView) itemView.findViewById(R.id.pc_rating_bar_value);
             ratingBar.setStepSize((float) 0.1);
 
             userCard.setOnClickListener(this);
@@ -72,12 +74,13 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.UserViewHolder> {
     @Override
     public void onBindViewHolder(UserViewHolder holder, int position) {
         holder.userCard.setTag(people.get(position).getUsername());
-
+        String val = String.format("%.1f", people.get(position).getRating());
         holder.personName.setText(people.get(position).getName());
         holder.personBackground.setText(people.get(position).getAcBd());
         holder.personLocations.setText(people.get(position).getLocations());
         holder.personSubjects.setText(people.get(position).getSubjects());
-        holder.ratingBar.setRating(people.get(position).getRating());
+        holder.ratingBar.setRating((float) people.get(position).getRating());
+        holder.ratingBarValue.setText(val);
     }
 
     @Override

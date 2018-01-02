@@ -8,8 +8,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,12 +17,17 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import Adapters.ELVAdapter;
-import Model.Database;
+import adapters.ELVAdapter;
+import model.Database;
 
 public class SearchFilterActivity extends AppCompatActivity {
     ELVAdapter listAdapter;
     ExpandableListView expListView;
+    SeekBar nos;
+    TextView nos_progress;
+    int nos_value = 1;
+    TextView salary;
+
     ArrayList<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
 
@@ -37,9 +42,102 @@ public class SearchFilterActivity extends AppCompatActivity {
 
         expListView = (ExpandableListView) findViewById(R.id.elv_SearchFilter);
         FloatingActionButton button = (FloatingActionButton) findViewById(R.id.fab_submit_filter_req);
-        final TextView textView = (TextView) findViewById(R.id.textView);
+        nos = (SeekBar) findViewById(R.id.my_seekbar);
+        nos_progress = (TextView) findViewById(R.id.my_seekbar_value);
+        salary = (TextView) findViewById(R.id.sf_salary_field);
 
         prepareListData();
+
+        setupExpandableListView();
+        setupSeekBar();
+
+
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
+
+                StringBuilder res = new StringBuilder();
+
+                //getting the subs
+                ArrayList<String> s = listAdapter.getCheckedItems(0);
+                for (String x : s ) {
+                    res.append(x).append(" ");
+                }
+                intent.putExtra("subjects", res.toString());
+
+                //getting locations
+                res = new StringBuilder();
+                s = listAdapter.getCheckedItems(1);
+                for (String x: s) {
+                    res.append(x).append(" ");
+                }
+                intent.putExtra("locations", res.toString());
+
+                //getting academic levels
+                res = new StringBuilder();
+                s = listAdapter.getCheckedItems(2);
+                for (String x: s) {
+                    res.append(x).append(" ");
+                }
+                intent.putExtra("ac_levels", res.toString());
+
+                //getting gender
+                res = new StringBuilder();
+                s = listAdapter.getCheckedItems(3);
+                for (String x: s) {
+                    res.append(x).append(" ");
+                }
+                intent.putExtra("genders", res.toString());
+
+                intent.putExtra("nos", nos_value);
+
+
+                intent.putExtra("salary", getSalary());
+
+                startActivity(intent);
+            }
+        });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.search_menu, menu);
+        return true;
+    }
+
+    private void prepareListData() {
+        listDataHeader = new ArrayList<>();
+        listDataChild = new HashMap<>();
+
+        // Adding header data
+        listDataHeader.add("Subjects");
+        listDataHeader.add("Academic Levels");
+        listDataHeader.add("Gender");
+        listDataHeader.add("Locations");
+
+        // Adding child data
+        List<String> subjects = new ArrayList<>();
+        subjects.addAll(Database.subjectSet);
+
+        List<String> locations = new ArrayList<>();
+        locations.addAll(Database.locationSet);
+
+        List<String> academicLevel = new ArrayList<>();
+        academicLevel.addAll(Database.academicLevelSet);
+
+        List<String> gender = new ArrayList<>();
+        gender.add("Male");
+        gender.add("Female");
+
+
+        listDataChild.put(listDataHeader.get(0), subjects); // Header, Child data
+        listDataChild.put(listDataHeader.get(1), academicLevel);
+        listDataChild.put(listDataHeader.get(2), gender);
+        listDataChild.put(listDataHeader.get(3), locations);
+    }
+
+    private void setupExpandableListView(){
 
         listAdapter = new ELVAdapter(this, listDataHeader, listDataChild);
 
@@ -99,55 +197,37 @@ public class SearchFilterActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
 
+    private void setupSeekBar(){
+        nos.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                nos_progress.setText(String.valueOf(progress + 1));
+            }
 
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+            }
 
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                StringBuilder res = new StringBuilder();
-                for (int mGroupPosition = 0; mGroupPosition < listAdapter.getGroupCount(); mGroupPosition++) {
-                    ArrayList<String> s = listAdapter.getCheckedItems(mGroupPosition);
-                    for (String x : s ) {
-                        res.append(x).append(" ");
-                    }
-                }
-                Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
-                intent.putExtra("query", res.toString());
-                startActivity(intent);
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                nos_value = seekBar.getProgress() + 1;
+                Toast.makeText(getApplicationContext(), "Seek bar progress is :" +nos_value,
+                        Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.search_menu, menu);
-        return true;
-    }
+    private int getSalary(){
+        String s = salary.getText().toString();
+        int val = 0;
 
-    private void prepareListData() {
-        listDataHeader = new ArrayList<>();
-        listDataChild = new HashMap<>();
+        try {
+            val = Integer.parseInt(s);
+        } catch (NumberFormatException e) {
+            val = 2500;
+        }
 
-        // Adding header data
-        listDataHeader.add("Subjects");
-        listDataHeader.add("Locations");
-        listDataHeader.add("Academic Levels");
-
-        // Adding child data
-        List<String> subjects = new ArrayList<>();
-        subjects.addAll(Database.subjectSet);
-
-        List<String> locations = new ArrayList<>();
-        locations.addAll(Database.locationSet);
-
-        List<String> academicLevel = new ArrayList<>();
-        academicLevel.addAll(Database.academicLevelSet);
-
-
-        listDataChild.put(listDataHeader.get(0), subjects); // Header, Child data
-        listDataChild.put(listDataHeader.get(1), locations);
-        listDataChild.put(listDataHeader.get(2), academicLevel);
+        return val;
     }
 }

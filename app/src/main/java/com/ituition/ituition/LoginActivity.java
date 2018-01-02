@@ -1,6 +1,9 @@
 package com.ituition.ituition;
 
+import android.content.Context;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -9,19 +12,35 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.google.android.gms.maps.model.LatLng;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import Model.AcPreferences;
-import Model.Database;
-import Model.Location;
-import Model.SubSpec;
-import Model.User;
+import app.AppController;
+import model.AcPreferences;
+import model.Database;
+import model.Location;
+import model.SubSpec;
+import model.User;
 
 public class LoginActivity extends AppCompatActivity {
-    final String TAG = "LoginActivity";
+    final String TAG = "Mushfiq_LA";
+    ArrayList<LatLng> latLngs = new ArrayList<>();
     Button signInBtn;
     Button registerBtn;
     TextView userNameField;
@@ -32,8 +51,9 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        //getSupportActionBar().hide();
         loadDatabase();
+
+
 
         signInBtn = (Button) findViewById(R.id.signInBtn);
         registerBtn = (Button) findViewById(R.id.registerBtn);
@@ -46,19 +66,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String userName = userNameField.getText().toString();
                 String password = passwordField.getText().toString();
-                int result = verifyLogin(userName, password);
-                if (result == 1) {
-                    Intent intent = new Intent(LoginActivity.this, UserHomeActivity.class);
-                    Database.setCurrentUsername(userName);
-                    startActivity(intent);
-                } else if (result == 2) {
-                    //wrong password
-                    Toast.makeText(getApplicationContext(), "Incorrect password", Toast.LENGTH_SHORT).show();
-                } else if (result == 3) {
-                    //username is not registered
-                    Toast.makeText(getApplicationContext(), "Invalid username", Toast.LENGTH_SHORT).show();
-
-                }
+                verifyLogin(userName, password);
             }
         });
 
@@ -81,6 +89,18 @@ public class LoginActivity extends AppCompatActivity {
                 loadAcPreferences();
                 loadSubSpec();
                 loadLocations();
+                for (String s : Database.locationSet) {
+                    LatLng latLng = getLocationFromAddress(getApplicationContext(), s + ", Dhaka, Bangladesh");
+                    latLngs.add(latLng);
+                }
+                for (int i = 0; i < latLngs.size() ; i++){
+                    for (int j = i+1; j < latLngs.size(); j++) {
+                        float results[] = new float[1];
+                        android.location.Location.distanceBetween(
+                                latLngs.get(i).latitude, latLngs.get(i).longitude, latLngs.get(j).latitude, latLngs.get(j).longitude, results);
+                        Log.d("Mushfiq_l", String.valueOf(results[0]));
+                    }
+                }
             }
         }).start();
     }
@@ -207,13 +227,76 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    public int verifyLogin(String userName, String password) {
-        if (Database.users.containsKey(userName))
-            if (Database.users.get(userName).getPassword().equals(password)) {
-                return 1;
-            } else {
-                return 2;   //wrong password
+    public void verifyLogin(final String userName, final String password) {
+        final int[] result1 = {-1};
+        final StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://192.168.0.103/Test/include/324/verify_login.php",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("volley", response);
+                        try {
+                            JSONObject object = new JSONObject(response);
+                            result1[0] = object.getInt("success");
+                            int result = result1[0];
+                            if (result == 1) {
+                                Intent intent = new Intent(LoginActivity.this, UserHomeActivity.class);
+                                Database.setCurrentUsername(userName);
+                                startActivity(intent);
+                            } else if (result == 2) {
+                                //wrong password
+                                Toast.makeText(getApplicationContext(), "Incorrect password", Toast.LENGTH_SHORT).show();
+                            } else if (result == 3) {
+                                //username is not registered
+                                Toast.makeText(getApplicationContext(), "Invalid username", Toast.LENGTH_SHORT).show();
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("volleyError", error.toString());
             }
-        return 3;   //unregistered username
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("username", userName);
+                params.put("password", password);
+                return params;
+            }
+        };
+
+        AppController.getInstance().addToRequestQueue(stringRequest);
+    }
+
+
+    public LatLng getLocationFromAddress(Context context, String strAddress) {
+
+        Geocoder coder = new Geocoder(context);
+        List<Address> address;
+        LatLng p1 = null;
+
+        try {
+            // May throw an IOException
+            address = coder.getFromLocationName(strAddress, 5);
+            if (address == null) {
+                return null;
+            }
+            Address location = address.get(0);
+            location.getLatitude();
+            location.getLongitude();
+
+            p1 = new LatLng(location.getLatitude(), location.getLongitude() );
+
+        } catch (IOException ex) {
+
+            ex.printStackTrace();
+        }
+
+        return p1;
     }
 }

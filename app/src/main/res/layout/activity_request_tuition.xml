@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#FFFFFF"
-        tools:context="com.ituition.ituition.ProfileActivity">
+        tools:context="com.ituition.ituition.RequestTuitionActivity">
 
         <android.support.design.widget.AppBarLayout
-            android:id="@+id/reqTuitionAppBar"
+            android:id="@+id/rt_appbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
             <android.support.v7.widget.Toolbar
-                android:id="@+id/reqTuitionToolbar"
+                android:id="@+id/rt_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/colorPrimary"
@@ -27,19 +27,20 @@
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
         </android.support.design.widget.AppBarLayout>
 
+
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/reqTuitionSubjects"
+            android:id="@+id/rt_subjects"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/rt_appbar"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="8dp"
             android:layout_marginStart="25dp"
             android:layout_marginTop="12dp"
-            android:layout_below="@+id/reqTuitionAppBar"
             android:textColorHint="@color/colorPrimary">
 
             <android.support.design.widget.TextInputEditText
-                android:id="@+id/reqTuitionSubjectsField"
+                android:id="@+id/rt_subjects_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Subjects"
@@ -48,76 +49,96 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/reqTuitionAddress"
+            android:id="@+id/rt_address"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/rt_subjects"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="12dp"
             android:layout_marginStart="25dp"
             android:layout_marginTop="12dp"
-            android:layout_below="@+id/reqTuitionSubjects"
             android:textColorHint="@color/colorPrimary">
 
             <android.support.design.widget.TextInputEditText
-                android:id="@+id/reqTuitionAddressField"
+                android:id="@+id/rt_address_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Address"
                 android:textColor="#000000"
-                android:textColorHint="@color/colorPrimary"/>
+                android:textColorHint="@color/colorPrimary" />
 
         </android.support.design.widget.TextInputLayout>
 
-        <TextView
-            android:id="@+id/no_of_students"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="No. of Students"
-            android:layout_alignStart="@id/reqTuitionAddress"
-            android:textColor="@color/textColorDark"
-            android:textSize="@dimen/label_text_size"
-            android:layout_below="@id/reqTuitionAddress"/>
-
-        <SeekBar
-            android:id="@+id/nof_studentsSeekbar"
-            style="@style/Widget.AppCompat.SeekBar.Discrete"
-            android:layout_height="wrap_content"
-            android:layout_width="300dp"
-            android:layout_alignStart="@id/no_of_students"
-            android:layout_marginTop="16dp"
-            android:layout_below="@id/no_of_students"
-            android:max="10"
-            />
-
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/reqTuitionSalary"
+            android:id="@+id/rt_nos"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
+            android:layout_below="@id/rt_address"
             android:layout_marginBottom="12dp"
             android:layout_marginStart="25dp"
             android:layout_marginTop="12dp"
-            android:layout_below="@+id/nof_studentsSeekbar"
             android:textColorHint="@color/colorPrimary">
 
             <android.support.design.widget.TextInputEditText
-                android:id="@+id/reqTuitionSalaryField"
+                android:id="@+id/rt_nos_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Salary"
+                android:hint="No. of Students"
                 android:textColor="#000000"
-                android:textColorHint="@color/colorPrimary"/>
+                android:textColorHint="@color/colorPrimary" />
 
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/rt_nod"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/rt_nos"
+            android:layout_marginBottom="12dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="12dp"
+            android:textColorHint="@color/colorPrimary">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/rt_nod_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="No. of days/week"
+                android:textColor="#000000"
+                android:textColorHint="@color/colorPrimary" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/rt_salary"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/rt_nod"
+            android:layout_marginBottom="12dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="12dp"
+            android:textColorHint="@color/colorPrimary">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/rt_salary_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Salary/Day"
+                android:textColor="#000000"
+                android:textColorHint="@color/colorPrimary" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/submitRequest"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/rt_salary"
             android:layout_centerInParent="true"
-            android:text="Request"
-            android:layout_below="@id/reqTuitionSalary"
-            android:layout_marginTop="12dp" />
+            android:layout_marginTop="12dp"
+            android:text="Request" />
 
     </RelativeLayout>
 </ScrollView>

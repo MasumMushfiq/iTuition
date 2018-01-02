@@ -1,6 +1,5 @@
 package com.ituition.ituition;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,13 +11,10 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.regex.Pattern;
 
-import Model.Database;
-import Model.User;
+import model.Database;
+import model.User;
 
 public class RegistrationActivity extends AppCompatActivity {
     EditText name;

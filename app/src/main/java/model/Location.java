@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 import java.util.ArrayList;
 
@@ -36,7 +36,7 @@ public class Location {
     }
 
     public String getLocationAsString() {
-        StringBuilder sb = new StringBuilder("locations: ");
+        StringBuilder sb = new StringBuilder("Locations: ");
         for (String s :
                 locations) {
             sb.append(s).append(", ");

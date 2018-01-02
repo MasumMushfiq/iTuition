@@ -1,4 +1,4 @@
-package com.ituition.ituition.Fragments;
+package com.ituition.ituition.fragments;
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -12,15 +12,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ituition.ituition.R;
-import Adapters.RVAdapter;
+import adapters.RVAdapter;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
-import Model.Database;
-import Model.Person;
-import Model.User;
+import model.Database;
+import model.Person;
+import model.User;
 
 /**
  * Created by mushfiq on 12/14/17.

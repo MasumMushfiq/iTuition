@@ -1,6 +1,4 @@
-package Model;
-
-import android.util.Log;
+package model;
 
 /**
  * Created by mushfiq on 11/17/17.
@@ -14,8 +12,11 @@ public class User {
     private String email;
     private String academicBackground;
     private String gender;
-    private float rating;
+
+    private double rating;
     private int oneSalary, twoSalary, threeSalary, moreSalary;
+
+    public User() {   }
 
     public User(String userName, String name, String password,
                 String contactNo, String email, String academicBackground, String gender, float rating) {
@@ -39,10 +40,10 @@ public class User {
         academicBackground = array[5];
         gender = array[6];
         rating = Float.parseFloat(array[7]) / 10;
-        oneSalary = (int)Double.parseDouble(array[8]);
-        twoSalary = (int)Double.parseDouble(array[9]);
-        threeSalary = (int)Double.parseDouble(array[10]);
-        moreSalary = (int)Double.parseDouble(array[11]);
+        oneSalary = (int) Double.parseDouble(array[8]);
+        twoSalary = (int) Double.parseDouble(array[9]);
+        threeSalary = (int) Double.parseDouble(array[10]);
+        moreSalary = (int) Double.parseDouble(array[11]);
         //Log.d("Salary", oneSalary + " " + twoSalary + " " + threeSalary + " " + moreSalary);
     }
 
@@ -95,7 +96,11 @@ public class User {
         this.name = name;
     }
 
-    public float getRating() {
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+
+    public double getRating() {
         return rating;
     }
 

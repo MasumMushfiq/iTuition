@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 /**
  * Created by tahmid on 12/5/17.
@@ -10,7 +10,10 @@ public class Person {
     private String acBd;
     private String locations;
     private String subjects;
-    private float rating;
+    private double rating;
+
+    public Person() {
+    }
 
     public Person(String username) {
         this.username = username;
@@ -28,6 +31,30 @@ public class Person {
         } else
             subjects = s.getSubjectsAsString();
         rating = user.getRating();
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAcBd(String acBd) {
+        this.acBd = acBd;
+    }
+
+    public void setLocations(String locations) {
+        this.locations = locations;
+    }
+
+    public void setSubjects(String subjects) {
+        this.subjects = subjects;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
     }
 
     public String getUsername() {
@@ -50,7 +77,19 @@ public class Person {
         return subjects;
     }
 
-    public float getRating() {
+    public double getRating() {
         return rating;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "username='" + username + '\'' +
+                ", name='" + name + '\'' +
+                ", acBd='" + acBd + '\'' +
+                ", locations='" + locations + '\'' +
+                ", subjects='" + subjects + '\'' +
+                ", rating=" + rating +
+                '}';
     }
 }
