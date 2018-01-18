@@ -3,7 +3,7 @@
     package="com.ituition.ituition">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:name="app.AppController"
@@ -26,24 +26,8 @@
         <activity android:name=".UpdateActivity" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".RegistrationActivity" />
-
         <activity android:name=".UserHomeActivity" />
-
         <activity android:name=".RequestTuitionActivity" />
-
-        <!--
-        <activity android:name=".ProcessSearchActivity"
-            android:launchMode="singleTop">
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
-        </activity>
-        -->
-        <activity android:name=".VolleyActivity" />
         <activity android:name=".SearchFilterActivity" />
         <activity android:name=".SearchActivity" />
     </application>

@@ -11,8 +11,11 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.Spinner;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -26,18 +29,14 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 
 import adapters.RVAdapter;
 import app.AppController;
 import model.DB;
-import model.Database;
-import model.Location;
 import model.Person;
-import model.SubSpec;
 import utilities.QueryCreator;
 
 public class SearchActivity extends AppCompatActivity {
@@ -57,6 +56,7 @@ public class SearchActivity extends AppCompatActivity {
     RecyclerView rv;
     Button btn_filter;
     Button display_query;
+    Spinner spinner_sort;
     RVAdapter adapter;
     LinearLayoutManager llm;
 
@@ -72,6 +72,7 @@ public class SearchActivity extends AppCompatActivity {
 
     //these are the parameters for building the query
     String[] s, l, a, g, d, i;
+    String search_tags = "";
     int ns = -1;    // ns is used so that nosquery can be kept unchanged
 
     @Override
@@ -82,6 +83,7 @@ public class SearchActivity extends AppCompatActivity {
         rv = (RecyclerView) findViewById(R.id.rv_search_result);
         btn_filter = (Button) findViewById(R.id.btn_filter);
         display_query = (Button) findViewById(R.id.btn_query_display);
+        spinner_sort = (Spinner) findViewById(R.id.spn_sort_result);
 
         resultData = new ArrayList<>();
         subjects = new ArrayList<>();
@@ -107,7 +109,7 @@ public class SearchActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             query = bundle.getString("query");
-            if (query != null){
+            if (query != null) {
                 processQuery(query);
             } else {
                 subjectQuery = bundle.getString("subjects");
@@ -122,6 +124,35 @@ public class SearchActivity extends AppCompatActivity {
             }
             executeQuery();
         }
+
+        spinner_sort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                switch (position) {
+                    case 0:
+                        //sort by rating(default)
+                        Collections.sort(resultData, Person.PersonRatingComparator);
+                        adapter.notifyDataSetChanged();
+                        break;
+                    case 1:
+                        //sort by salary
+                        Collections.sort(resultData, Person.PersonSalaryComparator);
+                        adapter.notifyDataSetChanged();
+                        break;
+                    case 2:
+                        //Toast.makeText(parent.getContext(), "Spinner item 3!", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+                // sometimes you need nothing here
+            }
+        });
+
     }
 
     @Override
@@ -129,11 +160,13 @@ public class SearchActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.search_menu, menu);
 
-        SearchView searchView = (SearchView)menu.findItem(R.id.action_search_sm).getActionView();
+        final SearchView searchView = (SearchView) menu.findItem(R.id.action_search_sm).getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                searchView.clearFocus();
                 processQuery(query);
+                executeQuery();
                 adapter.notifyDataSetChanged();
                 return true;
             }
@@ -144,6 +177,27 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        Intent intent;
+        switch (item.getItemId()){
+            case R.id.action_search_sm:
+                /*intent = new Intent(getApplicationContext(), SearchActivity.class);
+                startActivity(intent);*/
+                return true;
+            case R.id.action_account_sm:
+                intent = new Intent(SearchActivity.this, ProfileActivity.class);
+                intent.putExtra("activity", 1);
+                startActivity(intent);
+                return true;
+            case R.id.logout_sm:
+                intent = new Intent(SearchActivity.this, LoginActivity.class);
+                startActivity(intent);
+                return true;
+        }
         return true;
     }
 
@@ -158,6 +212,7 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     private void processQuery(String query) {
+        clearQueryDetails();
         query = query.replaceAll(",", " ");
         query = query.replaceAll("#", " ").replaceAll("\\.", "");
 
@@ -171,19 +226,19 @@ public class SearchActivity extends AppCompatActivity {
         }
 
         for (String word : words) {
-            if (DB.subjects.containsKey(word)){
+            if (DB.subjects.containsKey(word)) {
                 subjects.add(word);
-            } else if (DB.locations.containsKey(word)){
+            } else if (DB.locations.containsKey(word)) {
                 locations.add(word);
-            } else if (DB.academicLevel.containsKey(word)){
+            } else if (DB.academicLevel.containsKey(word)) {
                 acLevels.add(word);
             } else if (DB.gender.containsKey(word)) {
                 gender.add(word);
-            } else if (DB.departments.containsKey(word)){
+            } else if (DB.departments.containsKey(word)) {
                 departments.add(word);
-            } else if (DB.institutes.containsKey(word)){
+            } else if (DB.institutes.containsKey(word)) {
                 institutes.add(word);
-            } else if (isInteger(word)){
+            } else if (isInteger(word)) {
                 salaryQuery = Integer.parseInt(word);
             }
         }
@@ -198,7 +253,8 @@ public class SearchActivity extends AppCompatActivity {
             nosQuery = -1;
     }
 
-    private void processQuery(){
+    private void processQuery() {
+        clearQueryDetails();
         s = subjectQuery.isEmpty() ? new String[0] : subjectQuery.split(" ");
         l = locationQuery.isEmpty() ? new String[0] : locationQuery.split(" ");
         a = ac_levelQuery.isEmpty() ? new String[0] : ac_levelQuery.split(" ");
@@ -206,17 +262,17 @@ public class SearchActivity extends AppCompatActivity {
         d = deptQuery.isEmpty() ? new String[0] : deptQuery.split(" ");
         i = instQuery.isEmpty() ? new String[0] : instQuery.split(" ");
 
-        if (salaryQuery == 0){
+        if (salaryQuery == 0) {
             ns = -1;
         }
 
     }
 
-    private void executeQuery(){
+    private void executeQuery() {
         final String newQuery = QueryCreator.createQuery(s, l, a, d, i, g, ns, salaryQuery);
         Log.d(TAG, newQuery);
-
-        StringRequest request = new StringRequest(Request.Method.POST, "http://192.168.0.103/Test/include/324/general_query.php",
+        String url = DB.SERVER + "Test/include/324/general_query.php";
+        StringRequest request = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -224,9 +280,11 @@ public class SearchActivity extends AppCompatActivity {
                             JSONObject jo = new JSONObject(response);
                             Log.d("Mushfiq_sa_or", response);
                             JSONArray users = jo.getJSONArray("users");
+                            resultData.clear();
                             for (int i = 0; i < users.length(); i++) {
-                                resultData.add(getPersonFromJSON(users.getJSONObject(i)));
+                                resultData.add(DB.getPersonFromJSON(users.getJSONObject(i)));
                             }
+                            display_query.setText(display_query.getText().toString() + "\nNumber of rows: " + resultData.size());
                             adapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -237,7 +295,7 @@ public class SearchActivity extends AppCompatActivity {
             public void onErrorResponse(VolleyError error) {
                 Log.d("Mushfiq_sa_oer", error.toString());
             }
-        }){
+        }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> map = new HashMap<>();
@@ -248,78 +306,9 @@ public class SearchActivity extends AppCompatActivity {
 
         AppController.getInstance().addToRequestQueue(request);
 
-        display_query.setText(TAG + newQuery);
+        makeSearchTags();
+        display_query.setText(search_tags);
     }
-
-    Person getPersonFromJSON(JSONObject jo) throws JSONException {
-        Person p = new Person();
-        p.setUsername(jo.getString("username"));
-        p.setName(jo.getString("name"));
-        p.setAcBd(jo.getString("qualifications"));
-        p.setRating(jo.getDouble("rating"));
-
-        StringBuilder subs = new StringBuilder("Subjects: ");
-        JSONArray ja = jo.getJSONArray("subjects");
-//        ja = ja.getJSONArray(0);
-        for (int i = 0; i < ja.length(); i++){
-            subs.append(ja.getString(i)).append(", ");
-        }
-        String s = subs.toString();
-        s = s.substring(0, s.length() - 2);
-        p.setSubjects(s);
-
-        StringBuilder locs = new StringBuilder("Locations: ");
-        ja = jo.getJSONArray("locations");
-//        ja = ja.getJSONArray(0);
-        for (int i = 0; i < ja.length(); i++){
-            locs.append(ja.getString(i)).append(", ");
-        }
-        s = locs.toString();
-        s = s.substring(0, s.length() - 2);
-        p.setLocations(s);
-
-        return p;
-    }
-
-
-    /*
-        String[] words = query.split(" ");
-        ArrayList<String> subs = new ArrayList<>();
-        ArrayList<String> locs = new ArrayList<>();
-        HashSet<String> users = new HashSet<>();
-        HashSet<String> users1 = new HashSet<>();
-        for (String s : words) {
-            if (Database.locationSet.contains(s)) {
-                locs.add(s);
-            }
-            if (Database.subjectSet.contains(s)) {
-                subs.add(s);
-            }
-        }
-
-        for (String s : subs) {
-            for (Map.Entry<String, SubSpec> entry: Database.subSpecs.entrySet()){
-                if (entry.getValue().getSubjectsAsString().contains(s)){
-                    users.add(entry.getKey());
-                }
-            }
-        }
-        for (String s : locs) {
-            for (Map.Entry<String, Location> entry: Database.locations.entrySet()){
-                if (entry.getValue().getLocationAsString().contains(s)){
-                    users1.add(entry.getKey());
-                }
-            }
-        }
-
-        if (users.size() > 0 && users1.size() > 0)
-            users.retainAll(users1);
-        resultData.clear();
-        for (String s: users) {
-            resultData.add(new Person(s));
-        }
-        String s = String.format("Query: \"%s\" \nNo. of Results: %d", query, resultData.size());
-        display_query.setText(s);*/
 
     public static boolean isInteger(String str) {
         if (str == null) {
@@ -343,6 +332,25 @@ public class SearchActivity extends AppCompatActivity {
             }
         }
         return true;
+    }
+
+    private void clearQueryDetails() {
+        subjects.clear();
+        locations.clear();
+        acLevels.clear();
+        gender.clear();
+        departments.clear();
+        institutes.clear();
+    }
+
+    private void makeSearchTags() {
+        search_tags = "Search Tags: ";
+        for(String ms: s) search_tags += ms + " ";
+        for(String ms: l) search_tags += ms + " ";
+        for(String ms: a) search_tags += ms + " ";
+        for(String ms: g) search_tags += ms + " ";
+        for(String ms: d) search_tags += ms + " ";
+        for(String ms: i) search_tags += ms + " ";
     }
 }
 

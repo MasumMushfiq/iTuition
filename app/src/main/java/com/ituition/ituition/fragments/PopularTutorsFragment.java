@@ -31,6 +31,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 
 import app.AppController;
+import model.DB;
 import model.Database;
 import model.Person;
 import model.User;
@@ -74,7 +75,7 @@ public class PopularTutorsFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 
-    Person getPersonFromJSON(JSONObject jo) throws JSONException {
+    /*Person getPersonFromJSON(JSONObject jo) throws JSONException {
         Person p = new Person();
         p.setUsername(jo.getString("username"));
         p.setName(jo.getString("name"));
@@ -102,7 +103,7 @@ public class PopularTutorsFragment extends Fragment {
         p.setLocations(s);
 
         return p;
-    }
+    }*/
 
     private class GetPopularTutors extends AsyncTask<Void, Void, Void> {
         @Override
@@ -112,7 +113,8 @@ public class PopularTutorsFragment extends Fragment {
 
         @Override
         protected Void doInBackground(Void... arg0) {
-            StringRequest request = new StringRequest(Request.Method.GET, "http://192.168.0.103/Test/include/324/get_popular_tutors.php",
+            String url = DB.SERVER + "Test/include/324/get_popular_tutors.php";
+            StringRequest request = new StringRequest(Request.Method.GET, url,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
@@ -121,7 +123,7 @@ public class PopularTutorsFragment extends Fragment {
                                 Log.d("Mushfiq_ptf", response);
                                 JSONArray users = jo.getJSONArray("users");
                                 for (int i = 0; i < users.length(); i++) {
-                                    popularTutors.add(getPersonFromJSON(users.getJSONObject(i)));
+                                    popularTutors.add(DB.getPersonFromJSON(users.getJSONObject(i)));
                                 }
                                 adapter.notifyDataSetChanged();
                             } catch (JSONException e) {

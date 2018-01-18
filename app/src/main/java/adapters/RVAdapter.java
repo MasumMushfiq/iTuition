@@ -13,7 +13,10 @@ import android.widget.TextView;
 import com.ituition.ituition.ProfileActivity;
 import com.ituition.ituition.R;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
+import java.util.Locale;
 
 import model.Person;
 
@@ -32,6 +35,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.UserViewHolder> {
         TextView personBackground;
         RatingBar ratingBar;
         TextView ratingBarValue;
+        TextView salary;
         ImageView personPhoto;
 
         public UserViewHolder(View itemView) {
@@ -45,6 +49,8 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.UserViewHolder> {
             ratingBar = (RatingBar) itemView.findViewById(R.id.pc_rating_bar);
             ratingBarValue = (TextView) itemView.findViewById(R.id.pc_rating_bar_value);
             ratingBar.setStepSize((float) 0.1);
+            salary = (TextView) itemView.findViewById(R.id.person_salary);
+
 
             userCard.setOnClickListener(this);
         }
@@ -74,12 +80,13 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.UserViewHolder> {
     @Override
     public void onBindViewHolder(UserViewHolder holder, int position) {
         holder.userCard.setTag(people.get(position).getUsername());
-        String val = String.format("%.1f", people.get(position).getRating());
+        String val = String.format(Locale.ENGLISH, "%.1f", people.get(position).getRating());
         holder.personName.setText(people.get(position).getName());
         holder.personBackground.setText(people.get(position).getAcBd());
         holder.personLocations.setText(people.get(position).getLocations());
         holder.personSubjects.setText(people.get(position).getSubjects());
         holder.ratingBar.setRating((float) people.get(position).getRating());
+        holder.salary.setText(people.get(position).getSalary());
         holder.ratingBarValue.setText(val);
     }
 

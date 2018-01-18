@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -28,6 +29,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import app.AppController;
+import model.DB;
 import model.Database;
 import model.User;
 
@@ -180,7 +182,8 @@ public class ProfileActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... arg0) {
-            StringRequest request = new StringRequest(Request.Method.POST, "http://192.168.0.103/Test/include/324/get_tutor_data.php",
+            String url = DB.SERVER + "Test/include/324/get_tutor_data.php";
+            StringRequest request = new StringRequest(Request.Method.POST, url,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(final String response) {
@@ -269,5 +272,29 @@ public class ProfileActivity extends AppCompatActivity {
         threeSalary.setText(sal3);
         moreSalary.setText(sal4);
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        Intent intent;
+        switch (item.getItemId()){
+            case R.id.action_search:
+                /*intent = new Intent(getApplicationContext(), SearchActivity.class);
+                startActivity(intent);*/
+                return true;
+            case R.id.action_notification:
+
+                return false;
+            case R.id.action_account:
+                /*intent = new Intent(ProfileActivity.this, ProfileActivity.class);
+                intent.putExtra("activity", 1);
+                startActivity(intent);*/
+                return false;
+            case R.id.logout:
+                intent = new Intent(ProfileActivity.this, LoginActivity.class);
+                startActivity(intent);
+                return true;
+        }
+        return true;
     }
 }

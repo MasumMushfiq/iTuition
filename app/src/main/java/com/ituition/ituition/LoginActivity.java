@@ -54,6 +54,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         loadDatabase();
 
+        DB.getInstance().cleanDB();
         DB.getInstance();
 
 
@@ -231,13 +232,15 @@ public class LoginActivity extends AppCompatActivity {
 
     public void verifyLogin(final String userName, final String password) {
         final int[] result1 = {-1};
-        final StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://192.168.0.103/Test/include/324/verify_login.php",
+        String url = DB.SERVER + "Test/include/324/verify_login.php";
+        final StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         Log.d("volley", response);
                         try {
                             JSONObject object = new JSONObject(response);
+                            Log.d(TAG, response);
                             result1[0] = object.getInt("success");
                             int result = result1[0];
                             if (result == 1) {
@@ -247,7 +250,7 @@ public class LoginActivity extends AppCompatActivity {
                             } else if (result == 2) {
                                 //wrong password
                                 Toast.makeText(getApplicationContext(), "Incorrect password", Toast.LENGTH_SHORT).show();
-                            } else if (result == 3) {
+                            } else if (result == 3 || result == 0) {
                                 //username is not registered
                                 Toast.makeText(getApplicationContext(), "Invalid username", Toast.LENGTH_SHORT).show();
 
@@ -274,7 +277,6 @@ public class LoginActivity extends AppCompatActivity {
 
         AppController.getInstance().addToRequestQueue(stringRequest);
     }
-
 
     public LatLng getLocationFromAddress(Context context, String strAddress) {
 

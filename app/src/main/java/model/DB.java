@@ -24,6 +24,7 @@ import app.AppController;
  */
 
 public class DB {
+    public static final String SERVER = "http://192.168.0.102/";
     private final static String TAG = "Mushfiq_DB";
     public static final Map<String, String> subjects = new HashMap<>();
     public static final Map<String, String> locations = new HashMap<>();
@@ -38,7 +39,8 @@ public class DB {
     private static DB instance;
 
     private DB() {
-        StringRequest request = new StringRequest(Request.Method.POST, "http://192.168.0.103/Test/include/324/get_unique.php",
+        String url = SERVER +  "Test/include/324/get_unique.php";
+        StringRequest request = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(final String response) {
@@ -97,5 +99,49 @@ public class DB {
             institutes.put(inst.getString(i).toUpperCase(), inst.getString(i));
         }
 
+    }
+
+    public static Person getPersonFromJSON(JSONObject jo) throws JSONException {
+        Person p = new Person();
+        p.setUsername(jo.getString("username"));
+        p.setName(jo.getString("name"));
+        p.setAcBd(jo.getString("qualifications"));
+        p.setRating(jo.getDouble("rating"));
+        int sal = jo.getInt("salary");
+        sal = sal / 10;
+        sal = sal * 10;
+        p.setSalaryVal(sal);
+        //p.setSalary("Avg. Salary: " + String.valueOf(sal) + "/day");
+
+        StringBuilder subs = new StringBuilder("Subjects: ");
+        JSONArray ja = jo.getJSONArray("subjects");
+//        ja = ja.getJSONArray(0);
+        for (int i = 0; i < ja.length(); i++){
+            subs.append(ja.getString(i)).append(", ");
+        }
+        String s = subs.toString();
+        s = s.substring(0, s.length() - 2);
+        p.setSubjects(s);
+
+        StringBuilder locs = new StringBuilder("Locations: ");
+        ja = jo.getJSONArray("locations");
+//        ja = ja.getJSONArray(0);
+        for (int i = 0; i < ja.length(); i++){
+            locs.append(ja.getString(i)).append(", ");
+        }
+        s = locs.toString();
+        s = s.substring(0, s.length() - 2);
+        p.setLocations(s);
+
+        return p;
+    }
+
+    public void cleanDB() {
+        subjects.clear();
+        locations.clear();
+        academicLevel.clear();
+        gender.clear();
+        departments.clear();
+        institutes.clear();
     }
 }

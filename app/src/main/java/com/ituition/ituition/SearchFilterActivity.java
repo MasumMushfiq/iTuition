@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.SeekBar;
@@ -127,6 +128,27 @@ public class SearchFilterActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        Intent intent;
+        switch (item.getItemId()){
+            case R.id.action_search_sm:
+                /*intent = new Intent(getApplicationContext(), SearchActivity.class);
+                startActivity(intent);*/
+                return true;
+            case R.id.action_account_sm:
+                intent = new Intent(SearchFilterActivity.this, ProfileActivity.class);
+                intent.putExtra("activity", 1);
+                startActivity(intent);
+                return true;
+            case R.id.logout_sm:
+                intent = new Intent(SearchFilterActivity.this, LoginActivity.class);
+                startActivity(intent);
+                return true;
+        }
+        return true;
+    }
+
     private void setupListHeaders(){
         listDataHeader = new ArrayList<>();
         listDataChild = new HashMap<>();
@@ -180,9 +202,9 @@ public class SearchFilterActivity extends AppCompatActivity {
 
             @Override
             public void onGroupExpand(int groupPosition) {
-                Toast.makeText(getApplicationContext(),
+               /* Toast.makeText(getApplicationContext(),
                         listDataHeader.get(groupPosition) + " Expanded",
-                        Toast.LENGTH_SHORT).show();
+                        Toast.LENGTH_SHORT).show();*/
             }
         });
 
@@ -191,9 +213,9 @@ public class SearchFilterActivity extends AppCompatActivity {
 
             @Override
             public void onGroupCollapse(int groupPosition) {
-                Toast.makeText(getApplicationContext(),
+                /*Toast.makeText(getApplicationContext(),
                         listDataHeader.get(groupPosition) + " Collapsed",
-                        Toast.LENGTH_SHORT).show();
+                        Toast.LENGTH_SHORT).show();*/
 
             }
         });
@@ -230,8 +252,8 @@ public class SearchFilterActivity extends AppCompatActivity {
 
             public void onStopTrackingTouch(SeekBar seekBar) {
                 nos_value = seekBar.getProgress() + 1;
-                Toast.makeText(getApplicationContext(), "Seek bar progress is :" + nos_value,
-                        Toast.LENGTH_SHORT).show();
+                /*Toast.makeText(getApplicationContext(), "Seek bar progress is :" + nos_value,
+                        Toast.LENGTH_SHORT).show();*/
             }
         });
     }
