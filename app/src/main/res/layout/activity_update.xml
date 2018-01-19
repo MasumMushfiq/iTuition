@@ -5,143 +5,280 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#ffffff"
-        tools:context="com.ituition.ituition.UpdateActivity">
+        android:orientation="vertical"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:paddingTop="10dp">
 
-        <!--<com.github.florent37.materialtextfield.MaterialTextField
-            android:id="@+id/nameField"
-            android:layout_width="300dp"
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="72dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="24dp"
+            android:src="@drawable/logo1" />
+
+        <!--  Name Label -->
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="12dp"
-            app:mtf_image="@drawable/ic_email_white_24dp"
-            app:mtf_labelColor="#666">
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:textColorHint="@color/colorPrimary">
 
             <EditText
+                android:id="@+id/update_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Name"
-                android:text="Tahmid Hasan"
-                android:textColor="#000000"
-                android:textSize="15sp" />
-        </com.github.florent37.materialtextfield.MaterialTextField>
+                android:inputType="textCapWords" />
+        </android.support.design.widget.TextInputLayout>
 
-        <com.github.florent37.materialtextfield.MaterialTextField
-            android:id="@+id/qualificationField"
-            android:layout_width="300dp"
+
+        <!-- Email Label -->
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignStart="@+id/nameField"
-            android:layout_below="@+id/nameField"
-            app:mtf_image="@drawable/ic_email_white_24dp"
-            app:mtf_labelColor="#666">
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:textColorHint="@color/colorPrimary">
 
             <EditText
+                android:id="@+id/update_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Qualification"
-                android:text="Studying CSE at BUET"
-                android:textColor="#000000"
-                android:textSize="15sp" />
+                android:hint="@string/prompt_email"
+                android:inputType="textEmailAddress" />
+        </android.support.design.widget.TextInputLayout>
 
-        </com.github.florent37.materialtextfield.MaterialTextField>
-
-        <com.github.florent37.materialtextfield.MaterialTextField
-            android:id="@+id/preferenceField"
-            android:layout_width="300dp"
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignStart="@+id/nameField"
-            android:layout_below="@+id/qualificationField"
-            android:layout_marginBottom="10dp"
-            app:mtf_image="@drawable/ic_email_white_24dp"
-            app:mtf_labelColor="#666">
-
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:textColorHint="@color/colorPrimary">
 
             <EditText
+                android:id="@+id/update_contactNo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Preference"
-                android:text="English Medium, HSC"
-                android:textColor="#000000"
-                android:textSize="15sp" />
+                android:hint="Contact No:"
+                android:inputType="textEmailAddress" />
+        </android.support.design.widget.TextInputLayout>
 
-        </com.github.florent37.materialtextfield.MaterialTextField>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:textColorHint="@color/colorPrimary">
+
+            <EditText
+                android:id="@+id/update_dept"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Department"
+                android:inputType="textEmailAddress" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:textColorHint="@color/colorPrimary">
+
+            <EditText
+                android:id="@+id/update_institute"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Institution"
+                android:inputType="textEmailAddress" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:textColorHint="@color/colorPrimary">
+
+            <EditText
+                android:id="@+id/update_subjects"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Preferred Subjects"
+                android:inputType="textEmailAddress" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:textColorHint="@color/colorPrimary">
+
+            <EditText
+                android:id="@+id/update_locations"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Preferred Locations"
+                android:inputType="textEmailAddress" />
+        </android.support.design.widget.TextInputLayout>
+
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:textColorHint="@color/colorPrimary">
+
+            <EditText
+                android:id="@+id/update_ac_levels"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Preferred Academic Levels"
+                android:inputType="textEmailAddress" />
+        </android.support.design.widget.TextInputLayout>
 
         <TextView
-            android:id="@+id/specialty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="Salary/day"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/label_text_size" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="One Person"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/label_text_size" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="Two Persons"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/label_text_size" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="Three Persons"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/label_text_size" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="Four/More Persons"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/label_text_size" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp">
+
+            <TextView
+                android:id="@+id/gender_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingEnd="15dp"
+                android:paddingStart="15dp"
+                android:text="Gender"
+                android:textSize="20sp" />
+
+            <RadioGroup
+                android:id="@+id/gender_radio_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/gender_textview"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/male_radio_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="Male" />
+
+                <RadioButton
+                    android:id="@+id/female_radio_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Female" />
+            </RadioGroup>
+        </RelativeLayout>
+
+        <!-- Submit Button -->
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btn_submit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/specialtyField1"
-            android:text=" Specialty"
-            android:textSize="20sp"
-            android:layout_below="@+id/preferenceField"
-            android:layout_marginBottom="10dp"/>
+            android:layout_gravity="center"
+            android:layout_marginBottom="24dp"
+            android:layout_marginTop="24dp"
+            android:padding="12dp"
+            android:text="Submit" />
 
-        <android.support.v7.widget.AppCompatCheckBox
-            android:id="@+id/specialtyField1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignStart="@+id/preferenceField"
-            android:layout_below="@+id/specialty"
-            android:text="Math"
-            android:checked="true"/>
-
-        <android.support.v7.widget.AppCompatCheckBox
-            android:id="@+id/specialtyField2"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignStart="@+id/preferenceField"
-            android:layout_below="@+id/specialtyField1"
-            android:text="Physics" />
-        <android.support.v7.widget.AppCompatCheckBox
-            android:id="@+id/specialtyField3"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignStart="@+id/preferenceField"
-            android:layout_below="@+id/specialtyField2"
-            android:text="ICT"
-            android:checked="true"/>
-        <android.support.v7.widget.AppCompatCheckBox
-            android:id="@+id/specialtyField4"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignStart="@+id/preferenceField"
-            android:layout_below="@+id/specialtyField3"
-            android:text="Chemistry" />
-        <android.support.v7.widget.AppCompatCheckBox
-            android:id="@+id/specialtyField5"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignStart="@+id/preferenceField"
-            android:layout_below="@+id/specialtyField4"
-            android:text="Economics" />
-        <android.support.v7.widget.AppCompatCheckBox
-            android:id="@+id/specialtyField6"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignStart="@+id/preferenceField"
-            android:layout_below="@+id/specialtyField5"
-            android:text="Biology" />
-
-        <Button
-            android:id="@+id/saveBtn"
-            style="@android:style/Widget.Material.Button.Inset"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@id/specialtyField6"
-            android:text="Save" />
--->
-
-
-    </RelativeLayout>
+    </LinearLayout>
 
 </ScrollView>

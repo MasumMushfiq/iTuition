@@ -36,7 +36,7 @@ public class RegistrationActivity extends AppCompatActivity {
         //getSupportActionBar().hide();
 
         name = (EditText) findViewById(R.id.input_name);
-        username = (EditText) findViewById(R.id.inpu_username);
+        username = (EditText) findViewById(R.id.input_username);
         contactNo = (EditText) findViewById(R.id.input_contactNo);
         email = (EditText) findViewById(R.id.input_email);
         password = (EditText) findViewById(R.id.input_password);

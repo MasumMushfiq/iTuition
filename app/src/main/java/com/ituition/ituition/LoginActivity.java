@@ -278,6 +278,11 @@ public class LoginActivity extends AppCompatActivity {
         AppController.getInstance().addToRequestQueue(stringRequest);
     }
 
+    @Override
+    public void onBackPressed() {
+
+    }
+
     public LatLng getLocationFromAddress(Context context, String strAddress) {
 
         Geocoder coder = new Geocoder(context);

@@ -26,6 +26,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import app.AppController;
@@ -34,6 +35,7 @@ import model.Database;
 import model.User;
 
 public class ProfileActivity extends AppCompatActivity {
+    private final String TAG = "Mushfiq_PA";
     String userName = "";
     final User user = new User();
     Button next;
@@ -52,7 +54,6 @@ public class ProfileActivity extends AppCompatActivity {
     int activity;
 
     private TextView textCartItemCount;
-    private int mCartItemCount = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +88,9 @@ public class ProfileActivity extends AppCompatActivity {
         //user = Database.users.get(userName);
         profilePicture.setImageResource(R.drawable.ic_contact_picture);
 
-        new GetProfile().execute();
+        //new GetProfile().execute();
+        getProfileData();
+        new pollForNotification().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
 
         if (activity == 1) {
             next.setText("  Update Info  ");
@@ -139,13 +142,7 @@ public class ProfileActivity extends AppCompatActivity {
         final View notifications = menu.findItem(R.id.action_notification).getActionView();
 
         textCartItemCount = (TextView) notifications.findViewById(R.id.txtCount);
-        updateHotCount(mCartItemCount++);
-        textCartItemCount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updateHotCount(mCartItemCount++);
-            }
-        });
+
         notifications.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -156,70 +153,115 @@ public class ProfileActivity extends AppCompatActivity {
         return true;
     }
 
-    public void updateHotCount(final int new_hot_number) {
-        mCartItemCount = new_hot_number;
-        if (mCartItemCount < 0) return;
-        runOnUiThread(new Runnable() {
+    private void getProfileData() {
+        String url = DB.SERVER + "Test/include/324/get_tutor_data.php";
+        StringRequest request = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(final String response) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    setupUser(response);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                    }
+                }, new Response.ErrorListener() {
             @Override
-            public void run() {
-                if (mCartItemCount == 0)
-                    textCartItemCount.setVisibility(View.GONE);
-                else {
-                    textCartItemCount.setVisibility(View.VISIBLE);
-                    textCartItemCount.setText(Integer.toString(mCartItemCount));
-                }
+            public void onErrorResponse(VolleyError error) {
+                Log.d("Mushfiq_pa", error.toString());
             }
-        });
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = new HashMap<>();
+                map.put("username", userName);
+                return map;
+            }
+        };
+
+        AppController.getInstance().addToRequestQueue(request);
     }
 
-    private class GetProfile extends AsyncTask<Void, Void, Void> {
-        final String[] strings = new String[1];
+    private class pollForNotification extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected void onPreExecute() {
-            super.onPreExecute();
+        /*
+         *    do things before doInBackground() code runs
+         *    such as preparing and showing a Dialog or ProgressBar
+         */
         }
 
         @Override
-        protected Void doInBackground(Void... arg0) {
-            String url = DB.SERVER + "Test/include/324/get_tutor_data.php";
-            StringRequest request = new StringRequest(Request.Method.POST, url,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(final String response) {
-                            strings[0] = response;
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    try {
-                                        setupUser(strings[0]);
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            });
-                        }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.d("Mushfiq_pa", error.toString());
-                }
-            }) {
-                @Override
-                protected Map<String, String> getParams() throws AuthFailureError {
-                    Map<String, String> map = new HashMap<>();
-                    map.put("username", userName);
-                    return map;
-                }
-            };
+        protected void onProgressUpdate(Void... values) {
+        /*
+         *    updating data
+         *    such a Dialog or ProgressBar
+         */
+            if (DB.notificationCount == 0)
+                textCartItemCount.setVisibility(View.GONE);
+            else {
+                textCartItemCount.setVisibility(View.VISIBLE);
+                textCartItemCount.setText(String.format(Locale.ENGLISH,"%d", DB.notificationCount));
+            }
 
-            AppController.getInstance().addToRequestQueue(request);
-            return null;
+        }
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            final String url = DB.SERVER + "Test/include/324/get_no_pending_tuitions.php";
+            while (true) {
+                StringRequest request = new StringRequest(Request.Method.POST, url,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                try {
+                                    JSONObject jo = new JSONObject(response);
+                                    DB.notificationCount = jo.getInt("numbers");
+                                    Log.d(TAG, String.format("%d", DB.notificationCount));
+                                    publishProgress();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+
+                    }
+                }) {
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        Map<String, String> params = new HashMap<>();
+                        params.put("username", Database.getCurrentUsername());
+                        return params;
+                    }
+                };
+
+            /*RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+            requestQueue.add(request);*/
+                AppController.getInstance().addToRequestQueue(request);
+                try {
+                    Thread.sleep(1000 * 10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            //return null;
         }
 
         @Override
         protected void onPostExecute(Void result) {
-            super.onPostExecute(result);
+        /*
+         *    do something with data here
+         *    display it or send to main activity
+         *    close any dialogs/ProgressBars/etc...
+         */
         }
     }
 
