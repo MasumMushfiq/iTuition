@@ -1,10 +1,14 @@
 package com.ituition.ituition;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -13,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,9 +31,11 @@ import com.android.volley.toolbox.Volley;
 import com.ituition.ituition.fragments.LatestReviewsFragment;
 import com.ituition.ituition.fragments.PopularTutorsFragment;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -99,7 +106,8 @@ public class UserHomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "notifications " + DB.notificationCount);
-                //updateHotCount(mCartItemCount++);
+                textCartItemCount.setVisibility(View.INVISIBLE);
+                getTuitions();
             }
         });
 
@@ -111,8 +119,7 @@ public class UserHomeActivity extends AppCompatActivity {
         Intent intent;
         switch (item.getItemId()) {
             case R.id.action_search:
-                /*intent = new Intent(getApplicationContext(), SearchActivity.class);
-                startActivity(intent);*/
+
                 return true;
             case R.id.action_notification:
 
@@ -122,6 +129,12 @@ public class UserHomeActivity extends AppCompatActivity {
                 intent.putExtra("activity", 1);
                 startActivity(intent);
                 return true;
+            case R.id.action_my_tuition:
+                return false;
+            case R.id.action_my_tutors:
+                return false;
+            case R.id.action_req_tuition:
+                return false;
             case R.id.logout:
                 intent = new Intent(UserHomeActivity.this, LoginActivity.class);
                 startActivity(intent);
@@ -151,7 +164,7 @@ public class UserHomeActivity extends AppCompatActivity {
                 textCartItemCount.setVisibility(View.GONE);
             else {
                 textCartItemCount.setVisibility(View.VISIBLE);
-                textCartItemCount.setText(String.format(Locale.ENGLISH,"%d", DB.notificationCount));
+                textCartItemCount.setText(String.format(Locale.ENGLISH, "%d", DB.notificationCount));
             }
 
         }
@@ -166,7 +179,9 @@ public class UserHomeActivity extends AppCompatActivity {
                             public void onResponse(String response) {
                                 try {
                                     JSONObject jo = new JSONObject(response);
-                                    DB.notificationCount = jo.getInt("numbers");
+                                    int pendingReq = jo.getInt("pending");
+                                    int acceptedReq = jo.getInt("accepted");
+                                    DB.notificationCount = pendingReq + acceptedReq;
                                     Log.d(TAG, String.format("%d", DB.notificationCount));
                                     publishProgress();
                                 } catch (JSONException e) {
@@ -213,5 +228,75 @@ public class UserHomeActivity extends AppCompatActivity {
     public void onBackPressed() {
 
     }
+
+    private void getTuitions() {
+        final String[] tuitionNotices = new String[20];
+        final int[] tuitionIDs = new int[20];
+        final AlertDialog.Builder builder = new AlertDialog.Builder(UserHomeActivity.this);
+        final int[] countLength = new int[1];
+        String url = DB.SERVER + "Test/include/324/get_pending_tuitions.php";
+        StringRequest request = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d(TAG, "Response " + response);
+                        try {
+                            JSONObject jo = new JSONObject(response);
+                            JSONArray ja = jo.getJSONArray("tuitions");
+                            countLength[0] = ja.length();
+                            for (int i = 0; i < ja.length(); ++i) {
+                                tuitionIDs[i] = ja.getJSONObject(i).getInt("tuitionid");
+                                tuitionNotices[i] = ja.getJSONObject(i).getString("studentname");
+                            }
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    String[] notices = new String[countLength[0]];
+                                    for (int i = 0; i < notices.length; ++i) {
+                                        if (i < DB.notificationCount) {
+                                            notices[i] = "(New) You have a new request from " + tuitionNotices[i];
+                                        } else {
+                                            notices[i] = "You have a request from " + tuitionNotices[i];
+                                        }
+                                    }
+
+                                    builder.setTitle("Notifications");
+                                    builder.setItems(notices, new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int item) {
+                                            // Do something with the selection
+                                            //mDoneButton.setText(items[item]);
+                                            Log.d(TAG, String.format("Item %d selected\n", tuitionIDs[item]));
+                                            Intent intent = new Intent(UserHomeActivity.this, ShowTuitionRequestActivity.class);
+                                            intent.putExtra("tuitionId", tuitionIDs[item]);
+                                            startActivity(intent);
+                                        }
+                                    });
+                                    AlertDialog alert = builder.create();
+                                    alert.show();
+                                }
+                            });
+
+                            //publishProgress();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("username", Database.getCurrentUsername());
+                return params;
+            }
+        };
+        AppController.getInstance().addToRequestQueue(request);
+    }
+
+
 }
 

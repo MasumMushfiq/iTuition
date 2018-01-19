@@ -11,6 +11,7 @@ public class TuitionRequest {
     private String studentUsername;
     private String subjects;
     private String address;
+    private String acLev;
     private int no_of_students;
     private int daysPerWeek;
     private int salary;
@@ -18,13 +19,27 @@ public class TuitionRequest {
     private String review;
     private double rating;
 
+
+    /*
+    *   Tuition status
+    *
+    *   pending = 0
+    *   seen = 1
+    *   accepted = 2
+    *   rejected = 3
+    *   confirmation_seen = 4
+    *   done = 5
+    *
+    * */
+
     public TuitionRequest(String tutorUsername, String studentUsername,
-                          String subjects, String address, int no_of_students,
+                          String subjects, String address, String acLev, int no_of_students,
                           int daysPerWeek, int salary) {
         this.tutorUsername = tutorUsername;
         this.studentUsername = studentUsername;
         this.subjects = subjects;
         this.address = address;
+        this.acLev = acLev;
         this.no_of_students = no_of_students;
         this.daysPerWeek = daysPerWeek;
         this.salary = salary;
@@ -101,7 +116,19 @@ public class TuitionRequest {
         return daysPerWeek;
     }
 
+    public String getAcLev() {
+        return acLev;
+    }
+
+    public void setAcLev(String acLev) {
+        this.acLev = acLev;
+    }
+
     public int getSalary() {
         return salary;
+    }
+
+    public String getRequestNotification() {
+        return "You have a new request from " + studentUsername;
     }
 }

@@ -255,12 +255,12 @@ public class SearchActivity extends AppCompatActivity {
 
     private void processQuery() {
         clearQueryDetails();
-        s = subjectQuery.isEmpty() ? new String[0] : subjectQuery.split(" ");
-        l = locationQuery.isEmpty() ? new String[0] : locationQuery.split(" ");
-        a = ac_levelQuery.isEmpty() ? new String[0] : ac_levelQuery.split(" ");
-        g = genderQuery.isEmpty() ? new String[0] : genderQuery.split(" ");
-        d = deptQuery.isEmpty() ? new String[0] : deptQuery.split(" ");
-        i = instQuery.isEmpty() ? new String[0] : instQuery.split(" ");
+        s = subjectQuery.isEmpty() ? new String[0] : subjectQuery.split("#@#");
+        l = locationQuery.isEmpty() ? new String[0] : locationQuery.split("#@#");
+        a = ac_levelQuery.isEmpty() ? new String[0] : ac_levelQuery.split("#@#");
+        g = genderQuery.isEmpty() ? new String[0] : genderQuery.split("#@#");
+        d = deptQuery.isEmpty() ? new String[0] : deptQuery.split("#@#");
+        i = instQuery.isEmpty() ? new String[0] : instQuery.split("#@#");
 
         if (salaryQuery == 0) {
             ns = -1;

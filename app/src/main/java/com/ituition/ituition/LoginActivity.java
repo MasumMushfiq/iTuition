@@ -232,8 +232,8 @@ public class LoginActivity extends AppCompatActivity {
 
     public void verifyLogin(final String userName, final String password) {
         final int[] result1 = {-1};
-        String url = DB.SERVER + "Test/include/324/verify_login.php";
-        final StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+        final String url = DB.SERVER + "Test/include/324/verify_login.php";
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {

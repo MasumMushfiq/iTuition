@@ -21,7 +21,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity android:name=".UpdateActivity" />
         <activity android:name=".ProfileActivity" />
@@ -30,6 +29,7 @@
         <activity android:name=".RequestTuitionActivity" />
         <activity android:name=".SearchFilterActivity" />
         <activity android:name=".SearchActivity" />
+        <activity android:name=".ShowTuitionRequestActivity"></activity>
     </application>
 
 </manifest>

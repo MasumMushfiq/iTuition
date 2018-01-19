@@ -22,6 +22,19 @@
         android:title="@string/profile"
         app:showAsAction="never"/>
 
+    <item android:id="@+id/action_my_tuition"
+        android:title="My Tuitions"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/action_my_tutors"
+        android:title="My Tutors"
+        app:showAsAction="never"/>
+
+    <item android:id="@+id/action_req_tuition"
+        android:title="My Requests"
+        app:showAsAction="never"/>
+
+
     <item android:id="@+id/logout"
         android:title="@string/action_menu_logout"
         app:showAsAction="never"/>

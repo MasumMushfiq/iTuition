@@ -1,0 +1,225 @@
+package com.ituition.ituition;
+
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import app.AppController;
+import model.DB;
+
+public class ShowTuitionRequestActivity extends AppCompatActivity {
+    private int tuitionId;
+    private static final String TAG = "Mushfiq_STR";
+
+    private String name, subjects, address, aclev, email, contactNo;
+    private int salary, daysPerWeek, nStudent;
+
+    private TextView nameField, subjectsField, addressField, aclevField;
+    private TextView salaryField, daysPerWeekField, nosField, contactField, emailField;
+
+    private Button confirmBtn, rejectBtn;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_show_tuition_request);
+
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            tuitionId = bundle.getInt("tuitionId");
+            Log.d(TAG, "Tuition Id is " + String.valueOf(tuitionId));
+        }
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.str_toolbar);
+        setSupportActionBar(toolbar);
+
+        nameField = (TextView) findViewById(R.id.str_name_field);
+        subjectsField = (TextView) findViewById(R.id.str_subjects_field);
+        addressField = (TextView) findViewById(R.id.str_address_field);
+        aclevField = (TextView) findViewById(R.id.str_aclev_field);
+        salaryField = (TextView) findViewById(R.id.str_salary_field);
+        daysPerWeekField = (TextView) findViewById(R.id.str_ndays_field);
+        nosField = (TextView) findViewById(R.id.str_nos_field);
+        contactField = (TextView) findViewById(R.id.str_contact_field);
+        emailField = (TextView) findViewById(R.id.str_email_field);
+        confirmBtn = (Button) findViewById(R.id.str_confirm_btn);
+        rejectBtn = (Button) findViewById(R.id.str_reject_btn);
+
+        confirmBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                replyRequest(2);    //accepted
+                AlertDialog.Builder builder = new AlertDialog.Builder(ShowTuitionRequestActivity.this);
+                builder.setTitle("Request Confirmed")
+                        .setMessage("Congratulations!!! You can find your tuitions under My Tuitions menu");
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent intent = new Intent(getApplicationContext(), UserHomeActivity.class);
+                        startActivity(intent);
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+
+        rejectBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                replyRequest(3);    //rejected
+                AlertDialog.Builder builder = new AlertDialog.Builder(ShowTuitionRequestActivity.this);
+                builder.setTitle("Request Cancelled");
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent intent = new Intent(getApplicationContext(), UserHomeActivity.class);
+                        startActivity(intent);
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+        getTuitionDetails();
+
+    }
+
+
+    private void getTuitionDetails() {
+        final int[] result1 = {-1};
+        String url = DB.SERVER + "Test/include/324/get_tuition_details.php";
+        final StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("volley", response);
+                        try {
+                            Log.d(TAG, response);
+                            JSONObject jo = new JSONObject(response);
+                            jo = jo.getJSONObject("tuition");
+                            setTuitionData(jo);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Log.d(TAG, name + subjects);
+                                    nameField.setText(name);
+                                    subjectsField.setText(subjects);
+                                    addressField.setText(address);
+                                    aclevField.setText(aclev);
+                                    nosField.setText(String.format("%d", nStudent));
+                                    daysPerWeekField.setText(String.format("%d", daysPerWeek));
+                                    salaryField.setText(String.format("%d", salary));
+                                    contactField.setText(contactNo);
+                                    emailField.setText(email);
+                                }
+                            });
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("volleyError", error.toString());
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("tuitionid", String.valueOf(tuitionId));
+                return params;
+            }
+        };
+
+        AppController.getInstance().addToRequestQueue(stringRequest);
+    }
+
+    private void setTuitionData(JSONObject jo) throws JSONException {
+        name = jo.getString("studentname");
+        subjects = jo.getString("subjects");
+        address = jo.getString("address");
+        aclev = jo.getString("aclev");
+        nStudent = jo.getInt("number_of_students");
+        daysPerWeek = jo.getInt("days_per_week");
+        salary = jo.getInt("salary");
+        contactNo = jo.getString("contact_no");
+        email = jo.getString("email_id");
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.search_menu, menu);
+
+        SearchView searchView = (SearchView) menu.findItem(R.id.action_search_sm).getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
+                intent.putExtra("query", query);
+                startActivity(intent);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+        return true;
+    }
+
+    private void replyRequest(final int replyStatus) {
+        final String url = DB.SERVER + "Test/include/324/update_tuition_status.php";
+        final StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("volley", response);
+
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("volleyError", error.toString());
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put("tuitionid", String.valueOf(tuitionId));
+                params.put("status", String.valueOf(replyStatus));
+                return params;
+            }
+        };
+
+        AppController.getInstance().addToRequestQueue(stringRequest);
+
+    }
+}

@@ -69,7 +69,7 @@ public class SearchFilterActivity extends AppCompatActivity {
                 //getting the subs
                 ArrayList<String> s = listAdapter.getCheckedItems(0);
                 for (String x : s) {
-                    res.append(x).append(" ");
+                    res.append(x).append("#@#");
                 }
                 intent.putExtra("subjects", res.toString());
 
@@ -77,7 +77,7 @@ public class SearchFilterActivity extends AppCompatActivity {
                 res = new StringBuilder();
                 s = listAdapter.getCheckedItems(1);
                 for (String x : s) {
-                    res.append(x).append(" ");
+                    res.append(x).append("#@#");
                 }
                 intent.putExtra("locations", res.toString());
 
@@ -85,7 +85,7 @@ public class SearchFilterActivity extends AppCompatActivity {
                 res = new StringBuilder();
                 s = listAdapter.getCheckedItems(2);
                 for (String x : s) {
-                    res.append(x).append(" ");
+                    res.append(x).append("#@#");
                 }
                 intent.putExtra("ac_levels", res.toString());
 
@@ -93,21 +93,21 @@ public class SearchFilterActivity extends AppCompatActivity {
                 res = new StringBuilder();
                 s = listAdapter.getCheckedItems(3);
                 for (String x : s) {
-                    res.append(x).append(" ");
+                    res.append(x).append("#@#");
                 }
                 intent.putExtra("genders", res.toString());
 
                 res = new StringBuilder();
                 s = listAdapter.getCheckedItems(4);
                 for (String x:s){
-                    res.append(x).append(" ");
+                    res.append(x).append("#@#");
                 }
                 intent.putExtra("depts", res.toString());
 
                 res = new StringBuilder();
                 s = listAdapter.getCheckedItems(5);
                 for (String x: s) {
-                    res.append(x).append(" ");
+                    res.append(x).append("#@#");
                 }
                 intent.putExtra("institutes", res.toString());
 

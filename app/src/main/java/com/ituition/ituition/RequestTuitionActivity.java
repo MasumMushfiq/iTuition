@@ -35,6 +35,7 @@ public class RequestTuitionActivity extends AppCompatActivity {
     String userName;
     private TextView subjects;
     private TextView address;
+    private TextView acLev;
     private TextView nos;
     private TextView nod;
     private TextView salary;
@@ -62,6 +63,7 @@ public class RequestTuitionActivity extends AppCompatActivity {
         Button button = (Button) findViewById(R.id.submitRequest);
         subjects = (TextView) findViewById(R.id.rt_subjects_field);
         address = (TextView) findViewById(R.id.rt_address_field);
+        acLev = (TextView) findViewById(R.id.rt_acl_field);
         nos = (TextView) findViewById(R.id.rt_nos_field);
         nod = (TextView) findViewById(R.id.rt_nod_field);
         salary = (TextView) findViewById(R.id.rt_salary_field);
@@ -90,6 +92,7 @@ public class RequestTuitionActivity extends AppCompatActivity {
     private TuitionRequest makeRequest() {
         String s = "\"" + subjects.getText().toString() + "\"";
         String a = "\"" + address.getText().toString() + "\"";
+        String acl = "\"" + acLev.getText().toString() + "\"";
         int nstdnt = 0;
         int nday = 0;
         int sal = 0;
@@ -112,7 +115,7 @@ public class RequestTuitionActivity extends AppCompatActivity {
         }
         String tn = "\"" + tutorName + "\"";
         String un = "\"" + userName + "\"";
-        TuitionRequest tr = new TuitionRequest(tn, un, s, a, nstdnt, nday, sal);
+        TuitionRequest tr = new TuitionRequest(tn, un, s, a, acl, nstdnt, nday, sal);
         Log.d("ReqTut", tr.toString());
         return tr;
     }
@@ -146,6 +149,7 @@ public class RequestTuitionActivity extends AppCompatActivity {
                 map.put("tutorusername", t.getTutorUsername());
                 map.put("studentusername", t.getStudentUsername());
                 map.put("address", t.getAddress());
+                map.put("aclev", t.getAcLev());
                 map.put("number_of_students", String.valueOf(t.getNo_of_students()));
                 map.put("days_per_week", String.valueOf(t.getDaysPerWeek()));
                 map.put("status", String.valueOf(0));
