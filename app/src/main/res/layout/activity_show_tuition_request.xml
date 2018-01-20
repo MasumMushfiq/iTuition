@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#FFFFFF"
-        tools:context="com.ituition.ituition.Profile">
+        tools:context="com.ituition.ituition.Sh">
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/str_appbar"
@@ -287,7 +287,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="40dp"
-            android:layout_marginLeft="@dimen/str_left_margin"
+            android:layout_marginStart="@dimen/str_left_margin"
+            android:layout_marginEnd="@dimen/str_left_margin"
             android:orientation="horizontal"
             android:layout_below="@id/str_email_layout">
 

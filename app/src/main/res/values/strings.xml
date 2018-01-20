@@ -25,11 +25,14 @@
     <string name="title_activity_volley_test">VolleyTestActivity</string>
     <string name="search_filter">Filter Results</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="notifications">Notifications</string>
 
     <string name="sort_by">Sort by</string>
+    <string name="home">Home</string>
+    <string name="my_tuitions">My Tuitions</string>
+    <string name="my_tutors">My Tutors</string>
+    <string name="my_requests">My Requests</string>
     <string-array name="sorting_criteria">
         <item>Rating</item>
         <item>Salary</item>

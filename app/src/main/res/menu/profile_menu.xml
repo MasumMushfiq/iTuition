@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-    <item android:id="@+id/action_search"
+    <item android:id="@+id/action_search_pr"
         android:title="@string/home_action_search"
         android:icon="@android:drawable/ic_menu_search"
         app:actionViewClass="android.support.v7.widget.SearchView"
@@ -10,7 +10,7 @@
 
 
     <item
-        android:id="@+id/action_notification"
+        android:id="@+id/action_notification_pr"
         android:title="@string/notifications"
         android:icon="@drawable/ic_notification"
         android:menuCategory="secondary"
@@ -18,24 +18,25 @@
         app:actionLayout="@layout/notification_badge"
         app:showAsAction="ifRoom" />
 
-    <item android:id="@+id/action_account"
-        android:title="@string/profile"
-        app:showAsAction="never"/>
+    <item android:id="@+id/action_home_pr"
+        android:title="@string/home"
+        android:icon="@drawable/ic_home_black_48dp"
+        app:showAsAction="ifRoom"/>
 
-    <item android:id="@+id/action_my_tuition"
+    <item android:id="@+id/action_my_tuition_pr"
         android:title="@string/my_tuitions"
         app:showAsAction="never"/>
 
-    <item android:id="@+id/action_my_tutors"
+    <item android:id="@+id/action_my_tutors_pr"
         android:title="@string/my_tutors"
         app:showAsAction="never"/>
 
-    <item android:id="@+id/action_req_tuition"
+    <item android:id="@+id/action_req_tuition_pr"
         android:title="@string/my_requests"
         app:showAsAction="never"/>
 
 
-    <item android:id="@+id/logout"
+    <item android:id="@+id/logout_pr"
         android:title="@string/action_menu_logout"
         app:showAsAction="never"/>
 

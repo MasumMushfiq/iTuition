@@ -93,7 +93,7 @@ public class Person {
     }
 
     public String getSalary() {
-        return "Avg. Salary: " + String.valueOf(salaryVal) + "/day";
+        return "Salary: " + String.valueOf(salaryVal) + "/day";
     }
    /* public static Comparator<Student> StuNameComparator = new Comparator<Student>() {
 

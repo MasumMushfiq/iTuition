@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.ituition.ituition.Profile;
 import com.ituition.ituition.R;
+import com.ituition.ituition.TutorProfile;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -55,10 +56,9 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.UserViewHolder> {
 
         @Override
         public void onClick(View view) {
-            Intent intent = new Intent(view.getContext(), Profile.class);
+            Intent intent = new Intent(view.getContext(), TutorProfile.class);
             String userName = (String) view.getTag();
             intent.putExtra("username", userName);
-            intent.putExtra("activity", 2);
             view.getContext().startActivity(intent);
         }
     }

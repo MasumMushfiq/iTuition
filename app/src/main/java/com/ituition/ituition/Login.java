@@ -54,9 +54,7 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         loadDatabase();
 
-        DB.getInstance().cleanDB();
         DB.getInstance();
-
 
         signInBtn = (Button) findViewById(R.id.signInBtn);
         registerBtn = (Button) findViewById(R.id.registerBtn);
@@ -280,7 +278,8 @@ public class Login extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-
+        finish();
+        System.exit(0);
     }
 
     public LatLng getLocationFromAddress(Context context, String strAddress) {

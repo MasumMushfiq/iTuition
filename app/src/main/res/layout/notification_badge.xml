@@ -29,5 +29,6 @@
         android:gravity="center"
         android:minWidth="17sp"
         android:textColor="#ffffffff"
+        android:visibility="invisible"
         android:textSize="12sp" />
 </RelativeLayout>

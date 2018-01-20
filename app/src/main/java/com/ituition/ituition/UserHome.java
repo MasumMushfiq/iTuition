@@ -41,7 +41,7 @@ import model.Database;
 public class UserHome extends AppCompatActivity {
     private final static String TAG = "Mushfiq_UHA";
     private ViewPager viewPager;
-    private TextView textCartItemCount;
+    private static TextView textCartItemCount;
     private final int[] countLength = new int[2];
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,14 +112,13 @@ public class UserHome extends AppCompatActivity {
         Intent intent;
         switch (item.getItemId()) {
             case R.id.action_search:
-
+                Log.d(TAG, "Action Search Pressed");
                 return true;
             case R.id.action_notification:
-
-                return false;
+                Log.d(TAG, "Action Notification Pressed");
+                return true;
             case R.id.action_account:
                 intent = new Intent(UserHome.this, Profile.class);
-                intent.putExtra("activity", 1);
                 startActivity(intent);
                 return true;
             case R.id.action_my_tuition:
@@ -146,7 +145,7 @@ public class UserHome extends AppCompatActivity {
     }
 
 
-    private class pollForNotification extends AsyncTask<Void, Void, Void> {
+    private static class pollForNotification extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected void onPreExecute() {
@@ -243,17 +242,17 @@ public class UserHome extends AppCompatActivity {
                         Log.d(TAG, "Response " + response);
                         try {
                             JSONObject jo = new JSONObject(response);
-                            JSONArray ja = jo.getJSONArray("pendingtuitions");
-                            JSONArray jb = jo.getJSONArray("acceptedtuitions");
-                            countLength[0] = jb.length();
-                            countLength[1] = ja.length();
-                            for (int i = 0; i < jb.length(); ++i) {
-                                tuitionIDs[i] = jb.getJSONObject(i).getInt("tuitionid");
-                                tuitionNotices[i] = jb.getJSONObject(i).getString("tutorname");
+                            JSONArray pendingArray = jo.getJSONArray("pendingtuitions");
+                            JSONArray acceptedArray = jo.getJSONArray("acceptedtuitions");
+                            countLength[0] = acceptedArray.length();
+                            countLength[1] = pendingArray.length();
+                            for (int i = 0; i < acceptedArray.length(); ++i) {
+                                tuitionIDs[i] = acceptedArray.getJSONObject(i).getInt("tuitionid");
+                                tuitionNotices[i] = acceptedArray.getJSONObject(i).getString("tutorname");
                             }
-                            for (int i = countLength[0]; i < countLength[0] + ja.length(); ++i) {
-                                tuitionIDs[i] = ja.getJSONObject(i - countLength[0]).getInt("tuitionid");
-                                tuitionNotices[i] = ja.getJSONObject(i - countLength[0]).getString("studentname");
+                            for (int i = countLength[0]; i < countLength[0] + pendingArray.length(); ++i) {
+                                tuitionIDs[i] = pendingArray.getJSONObject(i - countLength[0]).getInt("tuitionid");
+                                tuitionNotices[i] = pendingArray.getJSONObject(i - countLength[0]).getString("studentname");
                             }
 
                             runOnUiThread(new Runnable() {
@@ -277,13 +276,15 @@ public class UserHome extends AppCompatActivity {
                                     builder.setTitle("Notifications");
                                     builder.setItems(notices, new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int item) {
-                                            // Do something with the selection
-                                            //mDoneButton.setText(items[item]);
                                             // TODO distinguish between accepted tuitions and pending tuitions
                                             Log.d(TAG, String.format("Item %d selected\n", tuitionIDs[item]));
                                             Intent intent = new Intent(UserHome.this, ShowTuitionRequest.class);
                                             intent.putExtra("tuitionId", tuitionIDs[item]);
-                                            intent.putExtra("from", 0);
+                                            if (item < countLength[0]) {
+                                                intent.putExtra("from", 2); //accepted request
+                                            } else {
+                                                intent.putExtra("from", 0); //requested to me
+                                            }
                                             startActivity(intent);
                                         }
                                     });

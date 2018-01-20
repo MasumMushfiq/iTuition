@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,6 +24,7 @@ import adapters.ELVAdapter;
 import model.DB;
 
 public class SearchFilter extends AppCompatActivity {
+    private final static String TAG = "Mushfiq_SF";
     ELVAdapter listAdapter;
     ExpandableListView expListView;
     SeekBar nos;
@@ -124,25 +127,60 @@ public class SearchFilter extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.search_menu, menu);
+        inflater.inflate(R.menu.common_menu, menu);
+
+        SearchView searchView = (SearchView) menu.findItem(R.id.action_search_sm).getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Intent intent = new Intent(getApplicationContext(), Search.class);
+                intent.putExtra("query", query);
+                startActivity(intent);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
         return true;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent;
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_search_sm:
-                /*intent = new Intent(getApplicationContext(), Search.class);
-                startActivity(intent);*/
+                Log.d(TAG, "Action Search Pressed");
+                return true;
+            case R.id.action_go_home:
+                intent = new Intent(getApplicationContext(), UserHome.class);
+                startActivity(intent);
                 return true;
             case R.id.action_account_sm:
-                intent = new Intent(SearchFilter.this, Profile.class);
+                intent = new Intent(getApplicationContext(), Profile.class);
                 intent.putExtra("activity", 1);
                 startActivity(intent);
                 return true;
+            case R.id.action_my_tuition_sm:
+                intent = new Intent(getApplicationContext(), TuitionList.class);
+                intent.putExtra("from", 0); // status 2, 4 tutor me
+                startActivity(intent);
+                return true;
+            case R.id.action_my_tutors_sm:
+                intent = new Intent(getApplicationContext(), TuitionList.class);
+                intent.putExtra("from", 1); // status 2, 4 student me
+                startActivity(intent);
+                return true;
+            case R.id.action_req_tuition_sm:
+                intent = new Intent(getApplicationContext(), TuitionList.class);
+                intent.putExtra("from", 2); // status 0, 1 student me
+                startActivity(intent);
+                return true;
             case R.id.logout_sm:
-                intent = new Intent(SearchFilter.this, Login.class);
+                intent = new Intent(getApplicationContext(), Login.class);
                 startActivity(intent);
                 return true;
         }
@@ -247,7 +285,6 @@ public class SearchFilter extends AppCompatActivity {
             }
 
             public void onStartTrackingTouch(SeekBar seekBar) {
-                // TODO Auto-generated method stub
             }
 
             public void onStopTrackingTouch(SeekBar seekBar) {

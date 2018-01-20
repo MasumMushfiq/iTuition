@@ -87,6 +87,8 @@ public class Registration extends AppCompatActivity {
 
     }
 
+
+
     private boolean isNameValid(String name) {
         if (name.isEmpty()) {
             Toast.makeText(getApplicationContext(),

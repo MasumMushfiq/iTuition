@@ -8,10 +8,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -31,10 +34,15 @@ import model.DB;
 
 public class ShowTuitionRequest extends AppCompatActivity {
     private int tuitionId;
+
    /*
     *  from notification dialogue = 0
-    *  from my tuitions = 1
-    *  from my tutors = 2
+    *
+    *  got from tuition list
+    *
+    *  from my tuitions = 1  I am the tutor
+    *  from my tutors = 2    I am the student
+    *  from my requests = 3  I am the student
     */
     private int from;
     private static final String TAG = "Mushfiq_STR";
@@ -116,10 +124,21 @@ public class ShowTuitionRequest extends AppCompatActivity {
                     dialog.show();
                 }
             });
-        } else if (from == 1) {
-            topLabel.setText("My Tuition");
-            confirmBtn.setVisibility(View.INVISIBLE);
-            rejectBtn.setVisibility(View.INVISIBLE);
+        } else {
+            rejectBtn.setVisibility(View.GONE);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
+            if (from == 1) {
+                topLabel.setText("My Tuition");
+                confirmBtn.setVisibility(View.GONE);
+            } else if (from == 2) {
+                topLabel.setText("My Tutor");
+                confirmBtn.setGravity(Gravity.CENTER_HORIZONTAL);
+                confirmBtn.setLayoutParams(lp);
+                confirmBtn.setText("Feedback");
+            } else if (from == 3) {
+                topLabel.setText("Request Sent");
+                confirmBtn.setVisibility(View.GONE);
+            }
         }
         getTuitionDetails();
 
@@ -153,7 +172,7 @@ public class ShowTuitionRequest extends AppCompatActivity {
                                         nameField.setText(sname);
                                         contactField.setText(scontactNo);
                                         emailField.setText(semail);
-                                    } else if (from == 2) {
+                                    } else if (from == 2 || from == 3) {
                                         nameField.setText(tname);
                                         contactField.setText(tcontactNo);
                                         emailField.setText(temail);
@@ -200,7 +219,7 @@ public class ShowTuitionRequest extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.search_menu, menu);
+        inflater.inflate(R.menu.common_menu, menu);
 
         SearchView searchView = (SearchView) menu.findItem(R.id.action_search_sm).getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -220,6 +239,46 @@ public class ShowTuitionRequest extends AppCompatActivity {
 
         return true;
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
+        switch (item.getItemId()) {
+            case R.id.action_search_sm:
+                Log.d(TAG, "Action Search Pressed");
+                return true;
+            case R.id.action_account_sm:
+                intent = new Intent(getApplicationContext(), Profile.class);
+                intent.putExtra("activity", 1);
+                startActivity(intent);
+                return true;
+            case R.id.action_go_home:
+                intent = new Intent(getApplicationContext(), UserHome.class);
+                startActivity(intent);
+                return true;
+            case R.id.action_my_tuition_sm:
+                intent = new Intent(getApplicationContext(), TuitionList.class);
+                intent.putExtra("from", 0); // status 2, 4 tutor me
+                startActivity(intent);
+                return true;
+            case R.id.action_my_tutors_sm:
+                intent = new Intent(getApplicationContext(), TuitionList.class);
+                intent.putExtra("from", 1); // status 2, 4 student me
+                startActivity(intent);
+                return true;
+            case R.id.action_req_tuition_sm:
+                intent = new Intent(getApplicationContext(), TuitionList.class);
+                intent.putExtra("from", 2); // status 0, 1 student me
+                startActivity(intent);
+                return true;
+            case R.id.logout_sm:
+                intent = new Intent(getApplicationContext(), Login.class);
+                startActivity(intent);
+                return true;
+        }
+        return true;
+    }
+
 
     private void replyRequest(final int replyStatus) {
         final String url = DB.SERVER + "Test/include/324/update_tuition_status.php";

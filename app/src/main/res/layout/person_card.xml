@@ -105,7 +105,7 @@
             android:layout_height="wrap_content"
             android:layout_alignStart="@+id/person_location"
             android:layout_below="@+id/person_location"
-            android:text="Avg. Salary: 1000/day"
+            android:text="Salary/Day/Person: 1000/day"
             android:textColor="@color/textColorDark"
             android:textSize="15sp"
             />

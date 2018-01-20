@@ -7,20 +7,25 @@
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="collapseActionView|ifRoom"/>
 
+    <item android:id="@+id/action_go_home"
+        android:title="@string/home"
+        android:icon="@drawable/ic_home_black_48dp"
+        app:showAsAction="ifRoom"/>
+
     <item android:id="@+id/action_account_sm"
         android:title="@string/profile"
         app:showAsAction="never"/>
 
     <item android:id="@+id/action_my_tuition_sm"
-        android:title="My Tuitions"
+        android:title="@string/my_tuitions"
         app:showAsAction="never"/>
 
     <item android:id="@+id/action_my_tutors_sm"
-        android:title="My Tutors"
+        android:title="@string/my_tutors"
         app:showAsAction="never"/>
 
     <item android:id="@+id/action_req_tuition_sm"
-        android:title="My Requests"
+        android:title="@string/my_requests"
         app:showAsAction="never"/>
 
     <item android:id="@+id/logout_sm"

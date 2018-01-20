@@ -30,7 +30,8 @@
         <activity android:name=".SearchFilter" />
         <activity android:name=".Search" />
         <activity android:name=".ShowTuitionRequest" />
-        <activity android:name=".TuitionList"></activity>
+        <activity android:name=".TuitionList" />
+        <activity android:name=".TutorProfile"></activity>
     </application>
 
 </manifest>

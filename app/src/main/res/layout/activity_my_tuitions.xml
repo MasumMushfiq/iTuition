@@ -20,12 +20,18 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <Button
+        android:id="@+id/mt_label"
+        style="@android:style/Widget.Material.Button.Borderless"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tuition Request"
+        android:textAppearance="@android:style/TextAppearance.Material.Button" />
+
     <ListView
         android:id="@+id/mt_tuition_list"
         android:layout_marginTop="8dp"
         android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="8.0sp"/>
+        android:layout_width="match_parent" />
 
 </LinearLayout>

@@ -1,5 +1,7 @@
 package utilities;
 
+import android.util.Log;
+
 /**
  * Created by mushfiq on 1/2/18.
  */
@@ -7,6 +9,8 @@ public class QueryCreator {
 
     public static String createQuery(String[] subjects, String[] locations, String[] academic_levels,
                                      String[] departments, String[] institutes, String[] gender, int no_of_students, int salary) {
+        String TAG = "Mushfiq_QUERY";
+        Log.d(TAG, "No of students " + no_of_students + " Salary " + salary);
         int brackets = 0, flag = 0;
         StringBuilder query = new StringBuilder("SELECT DISTINCT Username FROM Users");
         if (subjects.length != 0) {

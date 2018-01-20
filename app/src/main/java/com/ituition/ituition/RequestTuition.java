@@ -4,10 +4,12 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -28,6 +30,7 @@ import model.Database;
 import model.TuitionRequest;
 
 public class RequestTuition extends AppCompatActivity {
+    private final static String TAG = "Mushfiq_RT";
     String userName;
     private TextView subjects;
     private TextView address;
@@ -56,7 +59,7 @@ public class RequestTuition extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
-        Button button = (Button) findViewById(R.id.submitRequest);
+        Button submitRequest = (Button) findViewById(R.id.submitRequest);
         subjects = (TextView) findViewById(R.id.rt_subjects_field);
         address = (TextView) findViewById(R.id.rt_address_field);
         acLev = (TextView) findViewById(R.id.rt_acl_field);
@@ -65,15 +68,13 @@ public class RequestTuition extends AppCompatActivity {
         salary = (TextView) findViewById(R.id.rt_salary_field);
         progressDialog = new ProgressDialog(RequestTuition.this);
 
-        button.setOnClickListener(new View.OnClickListener() {
+        submitRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 progressDialog.setMessage("Please Wait, We are Inserting Your Data on Server");
                 progressDialog.show();
                 t = makeRequest();
                 postTuition();
-                /*Intent intent = new Intent(RequestTuition.this, UserHome.class);
-                startActivity(intent);*/
             }
         });
     }
@@ -81,7 +82,63 @@ public class RequestTuition extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.user_home_menu, menu);
+        inflater.inflate(R.menu.common_menu, menu);
+
+        SearchView searchView = (SearchView) menu.findItem(R.id.action_search_sm).getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Intent intent = new Intent(getApplicationContext(), Search.class);
+                intent.putExtra("query", query);
+                startActivity(intent);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
+        switch (item.getItemId()) {
+            case R.id.action_search_sm:
+                Log.d(TAG, "Action Search Pressed");
+                return true;
+            case R.id.action_go_home:
+                intent = new Intent(getApplicationContext(), UserHome.class);
+                startActivity(intent);
+                return true;
+            case R.id.action_account_sm:
+                intent = new Intent(getApplicationContext(), Profile.class);
+                intent.putExtra("activity", 1);
+                startActivity(intent);
+                return true;
+            case R.id.action_my_tuition_sm:
+                intent = new Intent(getApplicationContext(), TuitionList.class);
+                intent.putExtra("from", 0); // status 2, 4 tutor me
+                startActivity(intent);
+                return true;
+            case R.id.action_my_tutors_sm:
+                intent = new Intent(getApplicationContext(), TuitionList.class);
+                intent.putExtra("from", 1); // status 2, 4 student me
+                startActivity(intent);
+                return true;
+            case R.id.action_req_tuition_sm:
+                intent = new Intent(getApplicationContext(), TuitionList.class);
+                intent.putExtra("from", 2); // status 0, 1 student me
+                startActivity(intent);
+                return true;
+            case R.id.logout_sm:
+                intent = new Intent(getApplicationContext(), Login.class);
+                startActivity(intent);
+                return true;
+        }
         return true;
     }
 
