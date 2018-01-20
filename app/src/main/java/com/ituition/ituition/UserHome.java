@@ -2,8 +2,6 @@ package com.ituition.ituition;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -17,17 +15,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.ituition.ituition.fragments.LatestReviewsFragment;
 import com.ituition.ituition.fragments.PopularTutorsFragment;
 
@@ -35,7 +29,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -45,11 +38,11 @@ import app.AppController;
 import model.DB;
 import model.Database;
 
-public class UserHomeActivity extends AppCompatActivity {
+public class UserHome extends AppCompatActivity {
     private final static String TAG = "Mushfiq_UHA";
     private ViewPager viewPager;
     private TextView textCartItemCount;
-
+    private final int[] countLength = new int[2];
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,7 +78,7 @@ public class UserHomeActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
+                Intent intent = new Intent(getApplicationContext(), Search.class);
                 intent.putExtra("query", query);
                 startActivity(intent);
                 return true;
@@ -125,18 +118,27 @@ public class UserHomeActivity extends AppCompatActivity {
 
                 return false;
             case R.id.action_account:
-                intent = new Intent(UserHomeActivity.this, ProfileActivity.class);
+                intent = new Intent(UserHome.this, Profile.class);
                 intent.putExtra("activity", 1);
                 startActivity(intent);
                 return true;
             case R.id.action_my_tuition:
-                return false;
+                intent = new Intent(getApplicationContext(), TuitionList.class);
+                intent.putExtra("from", 0); // status 2, 4 tutor me
+                startActivity(intent);
+                return true;
             case R.id.action_my_tutors:
-                return false;
+                intent = new Intent(getApplicationContext(), TuitionList.class);
+                intent.putExtra("from", 1); // status 2, 4 student me
+                startActivity(intent);
+                return true;
             case R.id.action_req_tuition:
-                return false;
+                intent = new Intent(getApplicationContext(), TuitionList.class);
+                intent.putExtra("from", 2); // status 0, 1 student me
+                startActivity(intent);
+                return true;
             case R.id.logout:
-                intent = new Intent(UserHomeActivity.this, LoginActivity.class);
+                intent = new Intent(UserHome.this, Login.class);
                 startActivity(intent);
                 return true;
         }
@@ -179,9 +181,9 @@ public class UserHomeActivity extends AppCompatActivity {
                             public void onResponse(String response) {
                                 try {
                                     JSONObject jo = new JSONObject(response);
-                                    int pendingReq = jo.getInt("pending");
-                                    int acceptedReq = jo.getInt("accepted");
-                                    DB.notificationCount = pendingReq + acceptedReq;
+                                    DB.pendingReq = jo.getInt("pending");
+                                    DB.acceptedReq = jo.getInt("accepted");
+                                    DB.notificationCount = DB.pendingReq + DB.acceptedReq;
                                     Log.d(TAG, String.format("%d", DB.notificationCount));
                                     publishProgress();
                                 } catch (JSONException e) {
@@ -232,8 +234,7 @@ public class UserHomeActivity extends AppCompatActivity {
     private void getTuitions() {
         final String[] tuitionNotices = new String[20];
         final int[] tuitionIDs = new int[20];
-        final AlertDialog.Builder builder = new AlertDialog.Builder(UserHomeActivity.this);
-        final int[] countLength = new int[1];
+        final AlertDialog.Builder builder = new AlertDialog.Builder(UserHome.this);
         String url = DB.SERVER + "Test/include/324/get_pending_tuitions.php";
         StringRequest request = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
@@ -242,21 +243,34 @@ public class UserHomeActivity extends AppCompatActivity {
                         Log.d(TAG, "Response " + response);
                         try {
                             JSONObject jo = new JSONObject(response);
-                            JSONArray ja = jo.getJSONArray("tuitions");
-                            countLength[0] = ja.length();
-                            for (int i = 0; i < ja.length(); ++i) {
-                                tuitionIDs[i] = ja.getJSONObject(i).getInt("tuitionid");
-                                tuitionNotices[i] = ja.getJSONObject(i).getString("studentname");
+                            JSONArray ja = jo.getJSONArray("pendingtuitions");
+                            JSONArray jb = jo.getJSONArray("acceptedtuitions");
+                            countLength[0] = jb.length();
+                            countLength[1] = ja.length();
+                            for (int i = 0; i < jb.length(); ++i) {
+                                tuitionIDs[i] = jb.getJSONObject(i).getInt("tuitionid");
+                                tuitionNotices[i] = jb.getJSONObject(i).getString("tutorname");
                             }
+                            for (int i = countLength[0]; i < countLength[0] + ja.length(); ++i) {
+                                tuitionIDs[i] = ja.getJSONObject(i - countLength[0]).getInt("tuitionid");
+                                tuitionNotices[i] = ja.getJSONObject(i - countLength[0]).getString("studentname");
+                            }
+
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    String[] notices = new String[countLength[0]];
+                                    String[] notices = new String[countLength[0] + countLength[1]];
                                     for (int i = 0; i < notices.length; ++i) {
-                                        if (i < DB.notificationCount) {
-                                            notices[i] = "(New) You have a new request from " + tuitionNotices[i];
+                                        if (i < countLength[0]) {
+                                            //in accepted tuitions
+                                            notices[i] = tuitionNotices[i] + " has accepted your tuition request";
                                         } else {
-                                            notices[i] = "You have a request from " + tuitionNotices[i];
+                                            //notices[i] = "You have a request from " + tuitionNotices[i];
+                                            if (countLength[0] + i < DB.pendingReq) {
+                                                notices[i] = "(New) You have a new request from " + tuitionNotices[i];
+                                            } else {
+                                                notices[i] = "You have a request from " + tuitionNotices[i];
+                                            }
                                         }
                                     }
 
@@ -265,9 +279,11 @@ public class UserHomeActivity extends AppCompatActivity {
                                         public void onClick(DialogInterface dialog, int item) {
                                             // Do something with the selection
                                             //mDoneButton.setText(items[item]);
+                                            // TODO distinguish between accepted tuitions and pending tuitions
                                             Log.d(TAG, String.format("Item %d selected\n", tuitionIDs[item]));
-                                            Intent intent = new Intent(UserHomeActivity.this, ShowTuitionRequestActivity.class);
+                                            Intent intent = new Intent(UserHome.this, ShowTuitionRequest.class);
                                             intent.putExtra("tuitionId", tuitionIDs[item]);
+                                            intent.putExtra("from", 0);
                                             startActivity(intent);
                                         }
                                     });

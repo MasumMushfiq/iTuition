@@ -24,8 +24,10 @@ import app.AppController;
  */
 
 public class DB {
-    public static final String SERVER = "http://192.168.0.102/";
+    public static final String SERVER = "http://192.168.0.104/";
     public static int notificationCount = 0;
+    public static int pendingReq = 0;
+    public static int acceptedReq = 0;
     private final static String TAG = "Mushfiq_DB";
     public static final Map<String, String> subjects = new HashMap<>();
     public static final Map<String, String> locations = new HashMap<>();

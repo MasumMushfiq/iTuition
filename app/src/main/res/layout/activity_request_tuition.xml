@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#FFFFFF"
-        tools:context="com.ituition.ituition.RequestTuitionActivity">
+        tools:context="com.ituition.ituition.RequestTuition">
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/rt_appbar"

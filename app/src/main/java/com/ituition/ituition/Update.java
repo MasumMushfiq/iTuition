@@ -3,7 +3,7 @@ package com.ituition.ituition;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-public class UpdateActivity extends AppCompatActivity {
+public class Update extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

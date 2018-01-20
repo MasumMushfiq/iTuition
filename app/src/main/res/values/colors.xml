@@ -8,5 +8,6 @@
     <color name="textColorDark">#000000</color>
     <color name="windowBackground">#FFFFFF</color>
     <color name="navigationBarColor">#000000</color>
+    <color name="lightBackground">#F4F4F4</color>
 </resources>
 

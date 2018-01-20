@@ -39,7 +39,7 @@ import model.Location;
 import model.SubSpec;
 import model.User;
 
-public class LoginActivity extends AppCompatActivity {
+public class Login extends AppCompatActivity {
     final String TAG = "Mushfiq_LA";
     ArrayList<LatLng> latLngs = new ArrayList<>();
     Button signInBtn;
@@ -77,7 +77,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, RegistrationActivity.class);
+                Intent intent = new Intent(Login.this, Registration.class);
                 startActivity(intent);
             }
         });
@@ -244,7 +244,7 @@ public class LoginActivity extends AppCompatActivity {
                             result1[0] = object.getInt("success");
                             int result = result1[0];
                             if (result == 1) {
-                                Intent intent = new Intent(LoginActivity.this, UserHomeActivity.class);
+                                Intent intent = new Intent(Login.this, UserHome.class);
                                 Database.setCurrentUsername(userName);
                                 startActivity(intent);
                             } else if (result == 2) {

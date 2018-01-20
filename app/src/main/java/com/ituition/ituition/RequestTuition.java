@@ -19,10 +19,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,7 +27,7 @@ import model.DB;
 import model.Database;
 import model.TuitionRequest;
 
-public class RequestTuitionActivity extends AppCompatActivity {
+public class RequestTuition extends AppCompatActivity {
     String userName;
     private TextView subjects;
     private TextView address;
@@ -67,7 +63,7 @@ public class RequestTuitionActivity extends AppCompatActivity {
         nos = (TextView) findViewById(R.id.rt_nos_field);
         nod = (TextView) findViewById(R.id.rt_nod_field);
         salary = (TextView) findViewById(R.id.rt_salary_field);
-        progressDialog = new ProgressDialog(RequestTuitionActivity.this);
+        progressDialog = new ProgressDialog(RequestTuition.this);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,7 +72,7 @@ public class RequestTuitionActivity extends AppCompatActivity {
                 progressDialog.show();
                 t = makeRequest();
                 postTuition();
-                /*Intent intent = new Intent(RequestTuitionActivity.this, UserHomeActivity.class);
+                /*Intent intent = new Intent(RequestTuition.this, UserHome.class);
                 startActivity(intent);*/
             }
         });
@@ -128,7 +124,7 @@ public class RequestTuitionActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         progressDialog.dismiss();
-                        Intent intent = new Intent(RequestTuitionActivity.this, UserHomeActivity.class);
+                        Intent intent = new Intent(RequestTuition.this, UserHome.class);
                         startActivity(intent);
                     }
                 }, new Response.ErrorListener() {
@@ -138,7 +134,7 @@ public class RequestTuitionActivity extends AppCompatActivity {
                 progressDialog.dismiss();
 
                 // Showing error message if something goes wrong.
-                Toast.makeText(RequestTuitionActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(RequestTuition.this, error.toString(), Toast.LENGTH_LONG).show();
             }
         }) {
             @Override

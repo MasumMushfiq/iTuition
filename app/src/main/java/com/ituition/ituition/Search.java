@@ -39,7 +39,7 @@ import model.DB;
 import model.Person;
 import utilities.QueryCreator;
 
-public class SearchActivity extends AppCompatActivity {
+public class Search extends AppCompatActivity {
     final String TAG = "Mushfiq_SA";
 
     //original queries are stored here
@@ -101,7 +101,7 @@ public class SearchActivity extends AppCompatActivity {
         btn_filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), SearchFilterActivity.class);
+                Intent intent = new Intent(getApplicationContext(), SearchFilter.class);
                 startActivity(intent);
             }
         });
@@ -185,16 +185,16 @@ public class SearchActivity extends AppCompatActivity {
         Intent intent;
         switch (item.getItemId()){
             case R.id.action_search_sm:
-                /*intent = new Intent(getApplicationContext(), SearchActivity.class);
+                /*intent = new Intent(getApplicationContext(), Search.class);
                 startActivity(intent);*/
                 return true;
             case R.id.action_account_sm:
-                intent = new Intent(SearchActivity.this, ProfileActivity.class);
+                intent = new Intent(Search.this, Profile.class);
                 intent.putExtra("activity", 1);
                 startActivity(intent);
                 return true;
             case R.id.logout_sm:
-                intent = new Intent(SearchActivity.this, LoginActivity.class);
+                intent = new Intent(Search.this, Login.class);
                 startActivity(intent);
                 return true;
         }
@@ -284,7 +284,7 @@ public class SearchActivity extends AppCompatActivity {
                             for (int i = 0; i < users.length(); i++) {
                                 resultData.add(DB.getPersonFromJSON(users.getJSONObject(i)));
                             }
-                            display_query.setText(display_query.getText().toString() + "\nNumber of rows: " + resultData.size());
+                            display_query.setText(display_query.getText().toString() + "\nNumber of Tutors Found: " + resultData.size());
                             adapter.notifyDataSetChanged();
                         } catch (JSONException e) {
                             e.printStackTrace();

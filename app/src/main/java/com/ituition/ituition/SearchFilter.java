@@ -21,7 +21,7 @@ import java.util.List;
 import adapters.ELVAdapter;
 import model.DB;
 
-public class SearchFilterActivity extends AppCompatActivity {
+public class SearchFilter extends AppCompatActivity {
     ELVAdapter listAdapter;
     ExpandableListView expListView;
     SeekBar nos;
@@ -62,7 +62,7 @@ public class SearchFilterActivity extends AppCompatActivity {
 
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
+                Intent intent = new Intent(getApplicationContext(), Search.class);
 
                 StringBuilder res = new StringBuilder();
 
@@ -133,16 +133,16 @@ public class SearchFilterActivity extends AppCompatActivity {
         Intent intent;
         switch (item.getItemId()){
             case R.id.action_search_sm:
-                /*intent = new Intent(getApplicationContext(), SearchActivity.class);
+                /*intent = new Intent(getApplicationContext(), Search.class);
                 startActivity(intent);*/
                 return true;
             case R.id.action_account_sm:
-                intent = new Intent(SearchFilterActivity.this, ProfileActivity.class);
+                intent = new Intent(SearchFilter.this, Profile.class);
                 intent.putExtra("activity", 1);
                 startActivity(intent);
                 return true;
             case R.id.logout_sm:
-                intent = new Intent(SearchFilterActivity.this, LoginActivity.class);
+                intent = new Intent(SearchFilter.this, Login.class);
                 startActivity(intent);
                 return true;
         }

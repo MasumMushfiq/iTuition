@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".LoginActivity"
+            android:name=".Login"
             android:label="iTuition">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,14 +22,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".UpdateActivity" />
-        <activity android:name=".ProfileActivity" />
-        <activity android:name=".RegistrationActivity" />
-        <activity android:name=".UserHomeActivity" />
-        <activity android:name=".RequestTuitionActivity" />
-        <activity android:name=".SearchFilterActivity" />
-        <activity android:name=".SearchActivity" />
-        <activity android:name=".ShowTuitionRequestActivity"></activity>
+        <activity android:name=".Update" />
+        <activity android:name=".Profile" />
+        <activity android:name=".Registration" />
+        <activity android:name=".UserHome" />
+        <activity android:name=".RequestTuition" />
+        <activity android:name=".SearchFilter" />
+        <activity android:name=".Search" />
+        <activity android:name=".ShowTuitionRequest" />
+        <activity android:name=".TuitionList"></activity>
     </application>
 
 </manifest>

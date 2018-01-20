@@ -34,7 +34,7 @@ import model.DB;
 import model.Database;
 import model.User;
 
-public class ProfileActivity extends AppCompatActivity {
+public class Profile extends AppCompatActivity {
     private final String TAG = "Mushfiq_PA";
     String userName = "";
     final User user = new User();
@@ -97,7 +97,7 @@ public class ProfileActivity extends AppCompatActivity {
             next.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(ProfileActivity.this, UpdateActivity.class);
+                    Intent intent = new Intent(Profile.this, Update.class);
                     startActivity(intent);
                 }
             });
@@ -106,7 +106,7 @@ public class ProfileActivity extends AppCompatActivity {
             next.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(ProfileActivity.this, RequestTuitionActivity.class);
+                    Intent intent = new Intent(Profile.this, RequestTuition.class);
                     intent.putExtra("tutorname", userName);
                     startActivity(intent);
                 }
@@ -126,7 +126,7 @@ public class ProfileActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
+                Intent intent = new Intent(getApplicationContext(), Search.class);
                 intent.putExtra("query", query);
                 startActivity(intent);
                 return true;
@@ -146,7 +146,9 @@ public class ProfileActivity extends AppCompatActivity {
         notifications.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //    TODO
+                Log.d(TAG, "notifications " + DB.notificationCount);
+                textCartItemCount.setVisibility(View.INVISIBLE);
+                //getTuitions();
             }
         });
 
@@ -207,7 +209,7 @@ public class ProfileActivity extends AppCompatActivity {
                 textCartItemCount.setVisibility(View.GONE);
             else {
                 textCartItemCount.setVisibility(View.VISIBLE);
-                textCartItemCount.setText(String.format(Locale.ENGLISH,"%d", DB.notificationCount));
+                textCartItemCount.setText(String.format(Locale.ENGLISH, "%d", DB.notificationCount));
             }
 
         }
@@ -222,7 +224,9 @@ public class ProfileActivity extends AppCompatActivity {
                             public void onResponse(String response) {
                                 try {
                                     JSONObject jo = new JSONObject(response);
-                                    DB.notificationCount = jo.getInt("numbers");
+                                    DB.pendingReq = jo.getInt("pending");
+                                    DB.acceptedReq = jo.getInt("accepted");
+                                    DB.notificationCount = DB.pendingReq + DB.acceptedReq;
                                     Log.d(TAG, String.format("%d", DB.notificationCount));
                                     publishProgress();
                                 } catch (JSONException e) {
@@ -264,6 +268,7 @@ public class ProfileActivity extends AppCompatActivity {
          */
         }
     }
+
 
     private void setupUser(String x) throws JSONException {
         JSONObject user = new JSONObject(x);
@@ -321,19 +326,19 @@ public class ProfileActivity extends AppCompatActivity {
         Intent intent;
         switch (item.getItemId()){
             case R.id.action_search:
-                /*intent = new Intent(getApplicationContext(), SearchActivity.class);
+                /*intent = new Intent(getApplicationContext(), Search.class);
                 startActivity(intent);*/
                 return true;
             case R.id.action_notification:
 
                 return false;
             case R.id.action_account:
-                /*intent = new Intent(ProfileActivity.this, ProfileActivity.class);
+                /*intent = new Intent(Profile.this, Profile.class);
                 intent.putExtra("activity", 1);
                 startActivity(intent);*/
                 return false;
             case R.id.logout:
-                intent = new Intent(ProfileActivity.this, LoginActivity.class);
+                intent = new Intent(Profile.this, Login.class);
                 startActivity(intent);
                 return true;
         }

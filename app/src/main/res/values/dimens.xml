@@ -11,7 +11,7 @@
 
 
     <dimen name="str_label_width">125dp</dimen>
-    <dimen name="str_left_margin">30dp</dimen>
+    <dimen name="str_left_margin">25dp</dimen>
     <dimen name="str_field_gap">5dp</dimen>
 </resources>
 

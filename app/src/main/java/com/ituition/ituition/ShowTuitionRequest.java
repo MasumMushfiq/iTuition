@@ -29,17 +29,25 @@ import java.util.Map;
 import app.AppController;
 import model.DB;
 
-public class ShowTuitionRequestActivity extends AppCompatActivity {
+public class ShowTuitionRequest extends AppCompatActivity {
     private int tuitionId;
+   /*
+    *  from notification dialogue = 0
+    *  from my tuitions = 1
+    *  from my tutors = 2
+    */
+    private int from;
     private static final String TAG = "Mushfiq_STR";
 
-    private String name, subjects, address, aclev, email, contactNo;
+    private String sname, subjects, address, aclev, semail, scontactNo;
     private int salary, daysPerWeek, nStudent;
 
     private TextView nameField, subjectsField, addressField, aclevField;
     private TextView salaryField, daysPerWeekField, nosField, contactField, emailField;
 
-    private Button confirmBtn, rejectBtn;
+    private Button confirmBtn, rejectBtn, topLabel;
+
+    private String tname, tcontactNo, temail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,14 +55,17 @@ public class ShowTuitionRequestActivity extends AppCompatActivity {
         setContentView(R.layout.activity_show_tuition_request);
 
         Bundle bundle = getIntent().getExtras();
+
         if (bundle != null) {
             tuitionId = bundle.getInt("tuitionId");
-            Log.d(TAG, "Tuition Id is " + String.valueOf(tuitionId));
+            from = bundle.getInt("from");
+            Log.d(TAG, "Tuition Id is " + String.valueOf(tuitionId) + " from " + from);
         }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.str_toolbar);
         setSupportActionBar(toolbar);
 
+        topLabel = (Button) findViewById(R.id.str_tuition_req_label);
         nameField = (TextView) findViewById(R.id.str_name_field);
         subjectsField = (TextView) findViewById(R.id.str_subjects_field);
         addressField = (TextView) findViewById(R.id.str_address_field);
@@ -67,42 +78,49 @@ public class ShowTuitionRequestActivity extends AppCompatActivity {
         confirmBtn = (Button) findViewById(R.id.str_confirm_btn);
         rejectBtn = (Button) findViewById(R.id.str_reject_btn);
 
-        confirmBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                replyRequest(2);    //accepted
-                AlertDialog.Builder builder = new AlertDialog.Builder(ShowTuitionRequestActivity.this);
-                builder.setTitle("Request Confirmed")
-                        .setMessage("Congratulations!!! You can find your tuitions under My Tuitions menu");
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent intent = new Intent(getApplicationContext(), UserHomeActivity.class);
-                        startActivity(intent);
-                    }
-                });
-                AlertDialog dialog = builder.create();
-                dialog.show();
-            }
-        });
+        if (from == 0) {
+            topLabel.setText("Tuition Request");
+            confirmBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    replyRequest(2);    //accepted
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ShowTuitionRequest.this);
+                    builder.setTitle("Request Confirmed")
+                            .setMessage("Congratulations!!! You can find your tuitions under My Tuitions menu");
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Intent intent = new Intent(getApplicationContext(), UserHome.class);
+                            startActivity(intent);
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
+            });
 
-        rejectBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                replyRequest(3);    //rejected
-                AlertDialog.Builder builder = new AlertDialog.Builder(ShowTuitionRequestActivity.this);
-                builder.setTitle("Request Cancelled");
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Intent intent = new Intent(getApplicationContext(), UserHomeActivity.class);
-                        startActivity(intent);
-                    }
-                });
-                AlertDialog dialog = builder.create();
-                dialog.show();
-            }
-        });
+            rejectBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    replyRequest(3);    //rejected
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ShowTuitionRequest.this);
+                    builder.setTitle("Request Cancelled");
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Intent intent = new Intent(getApplicationContext(), UserHome.class);
+                            startActivity(intent);
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
+            });
+        } else if (from == 1) {
+            topLabel.setText("My Tuition");
+            confirmBtn.setVisibility(View.INVISIBLE);
+            rejectBtn.setVisibility(View.INVISIBLE);
+        }
         getTuitionDetails();
 
     }
@@ -124,16 +142,22 @@ public class ShowTuitionRequestActivity extends AppCompatActivity {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Log.d(TAG, name + subjects);
-                                    nameField.setText(name);
+                                    Log.d(TAG, sname + subjects);
                                     subjectsField.setText(subjects);
                                     addressField.setText(address);
                                     aclevField.setText(aclev);
                                     nosField.setText(String.format("%d", nStudent));
                                     daysPerWeekField.setText(String.format("%d", daysPerWeek));
                                     salaryField.setText(String.format("%d", salary));
-                                    contactField.setText(contactNo);
-                                    emailField.setText(email);
+                                    if (from == 0 || from == 1) {
+                                        nameField.setText(sname);
+                                        contactField.setText(scontactNo);
+                                        emailField.setText(semail);
+                                    } else if (from == 2) {
+                                        nameField.setText(tname);
+                                        contactField.setText(tcontactNo);
+                                        emailField.setText(temail);
+                                    }
                                 }
                             });
                         } catch (JSONException e) {
@@ -159,15 +183,18 @@ public class ShowTuitionRequestActivity extends AppCompatActivity {
     }
 
     private void setTuitionData(JSONObject jo) throws JSONException {
-        name = jo.getString("studentname");
+        sname = jo.getString("studentname");
+        tname = jo.getString("tutorname");
         subjects = jo.getString("subjects");
         address = jo.getString("address");
         aclev = jo.getString("aclev");
         nStudent = jo.getInt("number_of_students");
         daysPerWeek = jo.getInt("days_per_week");
         salary = jo.getInt("salary");
-        contactNo = jo.getString("contact_no");
-        email = jo.getString("email_id");
+        scontactNo = jo.getString("scontact_no");
+        semail = jo.getString("semail_id");
+        tcontactNo = jo.getString("tcontact_no");
+        temail = jo.getString("temail_id");
     }
 
     @Override
@@ -179,7 +206,7 @@ public class ShowTuitionRequestActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Intent intent = new Intent(getApplicationContext(), SearchActivity.class);
+                Intent intent = new Intent(getApplicationContext(), Search.class);
                 intent.putExtra("query", query);
                 startActivity(intent);
                 return true;

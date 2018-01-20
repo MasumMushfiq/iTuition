@@ -10,10 +10,8 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.ituition.ituition.ProfileActivity;
+import com.ituition.ituition.Profile;
 import com.ituition.ituition.R;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -57,7 +55,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.UserViewHolder> {
 
         @Override
         public void onClick(View view) {
-            Intent intent = new Intent(view.getContext(), ProfileActivity.class);
+            Intent intent = new Intent(view.getContext(), Profile.class);
             String userName = (String) view.getTag();
             intent.putExtra("username", userName);
             intent.putExtra("activity", 2);

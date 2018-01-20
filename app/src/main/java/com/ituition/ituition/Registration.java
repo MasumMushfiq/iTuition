@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 import model.Database;
 import model.User;
 
-public class RegistrationActivity extends AppCompatActivity {
+public class Registration extends AppCompatActivity {
     EditText name;
     EditText username;
     EditText contactNo;
@@ -65,7 +65,7 @@ public class RegistrationActivity extends AppCompatActivity {
                 boolean validation = isNameValid(nameText) && isUsernameValid(usernameText)
                         && isEmailValid(emailText) && isContactNo(contactNoText) && isPasswordValid(pwText, confirmPwText);
                 if (validation) {
-                    Intent intent = new Intent(RegistrationActivity.this, UserHomeActivity.class);
+                    Intent intent = new Intent(Registration.this, UserHome.class);
                     {
                         User user = new User(usernameText, nameText, pwText, contactNoText, emailText, "", genderText, 0);
                         Database.users.put(usernameText, user);
@@ -80,7 +80,7 @@ public class RegistrationActivity extends AppCompatActivity {
         btn_linkLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
+                Intent intent = new Intent(Registration.this, Login.class);
                 startActivity(intent);
             }
         });
